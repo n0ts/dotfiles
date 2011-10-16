@@ -1,0 +1,4 @@
+#compdef daemon
+
+_arguments \
+  ':command:_command_names -e'

@@ -1,0 +1,5 @@
+#
+# .zshrc for linux
+#
+
+alias cp='nocorrect cp -a'

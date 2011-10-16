@@ -1,0 +1,2 @@
+#!/bin/sh
+tar zxf $1.tar.gz

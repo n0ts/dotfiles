@@ -1,0 +1,11 @@
+#!/bin/sh
+
+d='^$'
+for i in `find $HOME -path '*/\.svn' | sed 's/\/\.svn$//' | sort`;
+do
+  echo $i | grep -q $d
+  if [ $? != 0 ]; then
+    d=$i
+    echo $i
+  fi
+done | xargs svn update

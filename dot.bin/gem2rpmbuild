@@ -1,0 +1,32 @@
+#!/bin/sh
+
+GEM2RPM=/usr/bin/gem2rpm
+RPMBUILD=/usr/bin/rpmbuild
+
+if [ ! -x $GEM2RPM ]; then
+    echo "Could not found $GEM2RPM"
+    exit 1
+fi
+
+if [ ! -x $RPMBULD ]; then
+    echo "Could not fund $RPMBULD"
+    exit 1
+fi
+
+if [ x"$1" = "x" ]; then
+    echo "Usage: gem2rpmbuild GEMFILE"
+    exit 1
+fi
+
+GEMFILE=$1
+GEMNAME=`gem specification $GEMFILE | cut -d " " -f 2 | head -2 | tail -1`
+SPECFILE=rubygem-$GEMNAME.spec
+
+TOPDIR=`rpm -E '%_topdir'`
+if [ x"$TOPDIR" = "x" ]; then
+    echo "RPM topdir is empty!"
+    exit 1
+fi
+
+$GEM2RPM $GEMFILE -o $TOPDIR/SPECS/$SPECFILE
+$RPMBUILD -ba $TOPDIR/SPECS/$SPECFILE
