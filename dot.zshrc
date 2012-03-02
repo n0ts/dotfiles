@@ -97,6 +97,11 @@ alias df='df -h'
 alias du='du -h'
 alias e='emacs -nw'
 alias f=finger
+if [  -x "`which hub 2> /dev/null`" ]; then
+  alias git=hub
+else
+  alias git=git
+fi
 alias g=git
 alias grep='grep --color'
 alias h=history
@@ -163,6 +168,13 @@ bindkey "^x^f" edit-file
 
 
 export LANG=en_US.UTF-8
+export LESSCHARSET=UTF-8
+export LESS='-R'
+if [ -x "`which nkf 2> /dev/null`" ]; then
+    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s | nkf'
+else
+    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s'
+fi
 export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?'
 export HOST=`hostname`
 export PAGER=less
@@ -203,3 +215,5 @@ esac
 # load local configuration
 [ -r $HOME/.zshrc.local ] && source $HOME/.zshrc.local
 
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
