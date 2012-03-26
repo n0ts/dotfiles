@@ -19,26 +19,30 @@ setopt  CORRECT_ALL           #
 setopt  CSH_JUNKIE_HISTORY    # 
 setopt  EQUALS                # 
 setopt  EXTENDED_GLOB         # 
-setopt  EXTENDED_HISTORY      #
-setopt  FUNCTION_ARGZERO      #
+setopt  EXTENDED_HISTORY      # 
+setopt  FUNCTION_ARGZERO      # 
 #setopt  GLOB_COMPLETE         # 
 setopt  GLOB_DOTS             # 
 setopt  HIST_IGNORE_ALL_DUPS  # ignore duplication command history list
-setopt  HIST_REDUCE_BLANKS    # 
+setopt  HIST_IGNORE_DUPS      # 
 setopt  HIST_IGNORE_SPACE     # 
+setopt  HIST_NO_STORE         # 
+setopt  HIST_REDUCE_BLANKS    # 
 setopt  IGNORE_EOF            # 
+setopt  INC_APPEND_HISTORY    # 
 setopt  INTERACTIVE_COMMENTS  # 
 setopt  LIST_PACKED           # 
 setopt  LONG_LIST_JOBS        # 
 setopt  MAGIC_EQUAL_SUBST     # 
-setopt  NO_BEEP               #
-setopt  NO_CLOBBER            #
+setopt  NO_BEEP               # 
+setopt  NO_CLOBBER            # 
 setopt  NO_FLOW_CONTROL       # 
-setopt  NO_HUP                #
-setopt  NO_LIST_BEEP          #
-setopt  NONOMATCH             #
+setopt  NO_HUP                # 
+setopt  NO_LIST_BEEP          # 
+setopt  NONOMATCH             # 
 setopt  NOTIFY                # 
 setopt  NUMERIC_GLOB_SORT     # 
+setopt  PATH_DIRS             # 
 setopt  PRINT_EIGHT_BIT       # 
 setopt  PROMPT_SUBST          # 
 setopt  PUSHD_IGNORE_DUPS     # 
@@ -48,9 +52,30 @@ setopt  ZLE                   #
 unsetopt BG_NICE              # 
 
 # see manual zshparam(1).
-HISTSIZE=10000
-SAVEHIST=100000
+HISTSIZE=20000
+SAVEHIST=200000
 HISTFILE=$HOME/.zhistory
+function history-all { history -E 1 }
+
+# environment variable configuration
+export LANG=en_US.UTF-8
+export LESSCHARSET=UTF-8
+export LESS='-R'
+if [ -x "`which nkf 2> /dev/null`" ]; then
+    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s | nkf'
+else
+    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s'
+fi
+export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?'
+export HOST=`hostname`
+export PAGER=less
+export OSTYPE=`uname -s`
+export LSCOLORS=dxfxcxdxbxegedabagacad
+if [ -x `which emacsclient 2> /dev/null` ]; then
+  export EDITOR=emacsclient
+else
+  export EDITOR=vi
+fi
 
 # emacs keybind
 bindkey -e
@@ -60,20 +85,69 @@ bindkey '^[[3~' delete-char
 bindkey '^[[1~' beginning-of-line
 bindkey '^[[4~' end-of-line
 
-# completion style
-zstyle ':completion:*:default' menu select=1
-hosts=( ${(@)${${(M)${(s:# :)${(zj:# :)${(Lf)"$([[ -f ~/.ssh/config ]] && < ~/.ssh/config)"}%%\#*}}##host(|name) *}#host(|name) }/\*} )
-zstyle ':completion:*:hosts' hosts $hosts
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-# prompts
-if [ "$TERM" != "dumb" ]; then
-  PROMPT='%{[$[31+$RANDOM % 6]m%}%B%U%m'"@%n%#%{[m%}%u%b "
-  RPROMPT='%{[$[31+$RANDOM % 6]m%}%B%(?.%h.ERROR:%?) (%3c)%{[m%}%b'
+# history keybinf
+autoload -Uz is-at-least
+if is-at-least 4.3.10; then
+  bindkey '^R' history-incremental-pattern-search-backward
+  bindkey '^S' history-incremental-pattern-search-forward
 fi
 
-SPROMPT='Correct> '\''%r'\'' [Yes No Abort Edit] ? '
+# turn on auto-completion
+autoload -U compinit; compinit -u;
+autoload -U zstyle+
+autoload _canonical_paths args preexec
+source $HOME/.zfunctions/cdd
+
+# completion cache on
+zstyle ':completion:*' use-cache true
+
+# menu
+zstyle ':completion:*:default' menu select=1
+
+# case-insensitive (uppercase from lowercase) completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# ssh completion
+hosts=( ${(@)${${(M)${(s:# :)${(zj:# :)${(Lf)"$([[ -f $HOME/.ssh/config ]] && < $HOME/.ssh/config)"}%%\#*}}##host(|name) *}#host(|name) }/\*} )
+zstyle ':completion:*:hosts' hosts $hosts
+
+# colors on completion
+zstyle ':completion:*' list-colors ${(s.:.)LSCOLORS}
+
+case $OSTYPE in
+  Linux*)
+    PS_CMD="ps -axco pid,user,command"
+  ;;
+  FreeBSD*)
+    PS_CMD="ps -xco pid,user,command"
+  ;;
+  Darwin*)
+    PS_CMD="ps -axco pid,user,command"
+  ;;
+esac
+
+zstyle ':completion:*:processes' command $PS_CMD
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31'
+
+# sudo completion
+zstyle -e ":completion:*:sudo:*" command-path 'reply=($path)'
+
+# prompt
+if [ "$TERM" != "dumb" ]; then
+  PROMPT1='%{[$[31+$RANDOM % 6]m%}%B%U%m'"@%n%#%{[m%}%u%b "
+  PROMPT2='%{[$[31+$RANDOM % 6]m%}%B%(?.%h.ERROR:%?) (%3c)%{[m%}%b'
+  PROMPT="${PROMPT2}
+${PROMPT1}"
+fi
+SPROMPT="%{[31m%}'%r' is correct? [n,y,a,e] %{${reset_color}%}"
+
+
+# path
+fpath=($HOME/.zfunctions $fpath)
+ospath=( /usr/{,s}bin /{,s}bin )
+localpath=( /opt/*/{,s}bin /usr/local/{,s}bin /usr/X11R6/{,s}bin )
+homepath=( $HOME/.{,s}bin )
+path=( $homepath $localpath $ospath )
 
 # aliases
 if gls --color > /dev/null 2>&1; then
@@ -99,13 +173,10 @@ alias e='emacs -nw'
 alias f=finger
 if [  -x "`which hub 2> /dev/null`" ]; then
   alias git=hub
-else
-  alias git=git
 fi
 alias g=git
 alias grep='grep --color'
 alias h=history
-alias j=jobs
 alias mkdir='nocorrect mkdir'
 alias mv='nocorrect mv'
 alias mysql='mysql --auto-rehash'
@@ -167,37 +238,25 @@ zle -N edit-file
 bindkey "^x^f" edit-file
 
 
-export LANG=en_US.UTF-8
-export LESSCHARSET=UTF-8
-export LESS='-R'
-if [ -x "`which nkf 2> /dev/null`" ]; then
-    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s | nkf'
-else
-    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s'
-fi
-export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?'
-export HOST=`hostname`
-export PAGER=less
-export OSTYPE=`uname -s`
-export LSCOLORS=dxfxcxdxbxegedabagacad
-export EDITOR=vi
-if [ -x `which emacsclient 2> /dev/null` ]; then
-  export EDITOR=emacsclient
-fi
+# git
+function git () {
+  if ! (( $+_has_working_hub ))
+  then
+    hub --version &> /dev/null
+    _has_working_hub=$(($? == 0))
+  fi
+  if (( $_has_working_hub ))
+  then
+    hub "$@"
+  else
+    command git "$@"
+  fi
+}
 
-ospath=( /usr/{,s}bin /{,s}bin )
-localpath=( /opt/*/{,s}bin /usr/local/{,s}bin /usr/X11R6/{,s}bin )
-homepath=( $HOME/.bin $HOME/{,s}bin )
-path=( $homepath $localpath $ospath )
-
-# autoload
-fpath=($HOME/.zfunctions $fpath)
-autoload -U compinit; compinit -u
-autoload _canonical_paths args preexec
-source $HOME/.zfunctions/cdd
 
 # rvm
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+
 
 # load platform configuration
 case $OSTYPE in
@@ -212,8 +271,7 @@ case $OSTYPE in
   ;;
 esac
 
+
 # load local configuration
 [ -r $HOME/.zshrc.local ] && source $HOME/.zshrc.local
 
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
