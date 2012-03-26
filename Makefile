@@ -7,6 +7,8 @@ DOTS=\
 	.emacs \
 	.emacs.d \
 	.my.cnf \
+        .gitconfig \
+        .gitignore_global \
 	.screenrc \
 	.zfunctions \
 	.zlogin \
