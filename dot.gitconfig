@@ -7,8 +7,9 @@
 	br = branch
 	ci = commit -a
 	c = commit
-        cm = checkout master
 	co = checkout
+        cm = checkout master
+        conf = config
         fo = fetch origin
         ft = fetch
         lg = log --graph --pretty=oneline --decorate --date=short --abbrev-commit --branches
@@ -27,4 +28,4 @@
 	ui = auto
         status = auto
 [core]
-	excludesfile = /Users/n0ts/.gitignore_global
+	excludesfile = $HOME/.gitignore_global
