@@ -1,1 +1,11 @@
-My dot files.
+Naoya Nakazawa's dotfiles. dotfiles for emacs, zsh, mysql, top, git.
+
+* Support OS
+  - OSX Lion 10.7 or later
+  - Linux (mostly CentOS 5 or later / SL 5 or later / Ubuntu 11 or later)
+  - FreeBSD 8.x or later
+
+* Installation
+
+  $ cd dotfiles
+  $ make
