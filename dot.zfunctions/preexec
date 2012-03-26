@@ -58,6 +58,5 @@ xterm*)
 
     chpwd() {
         _reg_pwd_screennum
-        echo '[32m'`pwd`'[m' && ls
     }
 esac
