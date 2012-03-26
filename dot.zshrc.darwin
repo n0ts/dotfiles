@@ -1,0 +1,14 @@
+#
+# Homebrew
+#
+export HOMEBREW_PREFIX=`readlink $HOME/.homebrew`
+path=( $HOMEBREW_PREFIX/{,s}bin $path )
+
+#
+# AUTOJUMP
+# https://github.com/joelthelion/autojump
+#
+alias j="autojump"
+if [ -f $HOMEBREW_PREFIX/etc/autojump ]; then
+  . $HOMEBREW_PREFIX/etc/autojump
+fi
