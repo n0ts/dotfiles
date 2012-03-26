@@ -1,9 +1,6 @@
 [user]
 	name = n0ts
 	email = me@nts.org
-[github]
-	user = n0ts
-	token = 5c9b28475ede8bf54f84f7488b331528
 [alias]
 	graph = log --graph --pretty='format:%h %Cgreen%an%Creset | %s %Cred%d%Creset'
         ad = add
