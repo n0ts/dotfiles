@@ -148,6 +148,7 @@ ospath=( /usr/{,s}bin /{,s}bin )
 localpath=( /opt/*/{,s}bin /usr/local/{,s}bin /usr/X11R6/{,s}bin )
 homepath=( $HOME/.{,s}bin )
 path=( $homepath $localpath $ospath )
+typeset -U path cdpath fpath manpath
 
 # aliases
 if gls --color > /dev/null 2>&1; then
@@ -188,11 +189,16 @@ alias r=rails
 alias rm='rm -i'
 alias s=screen
 alias sd='sudo -H -s'
-alias scr='screen -D -RR'
+alias sr='screen -D -RR'
 alias sd='sudo -H -s'
 alias sudo='sudo -H'
 alias sudu=sudo
 alias tf='tail -f'
+if [  -x "`which vim 2> /dev/null`" ]; then
+   alias v='vim'
+else
+   alias v='vi'
+fi
 alias x=exit
 
 alias -s zip=zipinfo
@@ -209,6 +215,10 @@ alias -s conf=lv
 alias -s txt=lv
 alias -s xml=lv
 
+alias -g psg="$PS_CMD | grep"
+alias -g lsg='ls | grep'
+
+
 # dabbrev
 HARDCOPYFILE=$HOME/.screen-hardcopy
 touch $HARDCOPYFILE
@@ -223,6 +233,7 @@ dabbrev-complete () {
 zle -C dabbrev-complete menu-complete dabbrev-complete
 bindkey '^o' dabbrev-complete
 bindkey '^o^_' reverse-menu-complete
+
 
 # edit-file
 edit-file() {
@@ -239,7 +250,7 @@ bindkey "^x^f" edit-file
 
 
 # git
-function git () {
+function git() {
   if ! (( $+_has_working_hub ))
   then
     hub --version &> /dev/null
@@ -252,6 +263,16 @@ function git () {
     command git "$@"
   fi
 }
+
+
+# past command-line
+pbcopy-buffer() { 
+    print -rn $BUFFER | pbcopy
+    zle -M "pbcopy: ${BUFFER}"
+}
+
+zle -N pbcopy-buffer
+bindkey '^x^p' pbcopy-buffer
 
 
 # rvm
