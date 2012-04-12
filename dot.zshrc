@@ -62,9 +62,9 @@ export LANG=en_US.UTF-8
 export LESSCHARSET=UTF-8
 export LESS='-R'
 if [ -x "`which nkf 2> /dev/null`" ]; then
-    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s | nkf'
+  export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s | nkf'
 else
-    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s'
+  export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s'
 fi
 export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?'
 export HOST=`hostname`
@@ -195,9 +195,9 @@ alias sudo='sudo -H'
 alias sudu=sudo
 alias tf='tail -f'
 if [  -x "`which vim 2> /dev/null`" ]; then
-   alias v='vim'
+  alias v='vim'
 else
-   alias v='vi'
+  alias v='vi'
 fi
 alias x=exit
 
@@ -224,10 +224,10 @@ HARDCOPYFILE=$HOME/.screen-hardcopy
 touch $HARDCOPYFILE
 
 dabbrev-complete () {
-        local reply lines=80 # 80 lines
-        screen -X eval "hardcopy -h $HARDCOPYFILE"
-        reply=($(sed '/^$/d' $HARDCOPYFILE | sed '$ d' | tail -$lines))
-        compadd - "${reply[@]%[*/=@|]}"
+  local reply lines=80 # 80 lines
+  screen -X eval "hardcopy -h $HARDCOPYFILE"
+  reply=($(sed '/^$/d' $HARDCOPYFILE | sed '$ d' | tail -$lines))
+  compadd - "${reply[@]%[*/=@|]}"
 }
 
 zle -C dabbrev-complete menu-complete dabbrev-complete
@@ -235,15 +235,26 @@ bindkey '^o' dabbrev-complete
 bindkey '^o^_' reverse-menu-complete
 
 
+# auto-fu.zsh
+if [ -f ~/.auto-fo.zsh/auto-fu.zsh ]; then
+  source ~/.auto-fo.zsh/auto-fu.zsh
+  zle-line-init () {
+    auto-fu-init
+  }
+  zle -N zle-line-init
+  zstyle ':completion:*' completer _oldlist _complete
+fi
+
+
 # edit-file
 edit-file() {
-    zle -I
-    local file
-    local -a words
+  zle -I
+  local file
+  local -a words
 
-    words=(${(z)LBUFFER})
-    file="${words[$#words]}"
-    [[ -f "$file" ]] && $EDITOR "$file"
+  words=(${(z)LBUFFER})
+  file="${words[$#words]}"
+  [[ -f "$file" ]] && $EDITOR "$file"
 }
 zle -N edit-file
 bindkey "^x^f" edit-file
@@ -267,8 +278,8 @@ function git() {
 
 # past command-line
 pbcopy-buffer() { 
-    print -rn $BUFFER | pbcopy
-    zle -M "pbcopy: ${BUFFER}"
+  print -rn $BUFFER | pbcopy
+  zle -M "pbcopy: ${BUFFER}"
 }
 
 zle -N pbcopy-buffer
