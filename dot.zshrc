@@ -150,6 +150,7 @@ homepath=( $HOME/.{,s}bin )
 path=( $homepath $localpath $ospath )
 typeset -U path cdpath fpath manpath
 
+
 # aliases
 if gls --color > /dev/null 2>&1; then
   alias ls='gls --color=auto -F'
@@ -284,6 +285,12 @@ pbcopy-buffer() {
 
 zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
+
+
+# cpanm
+if [ -d $HOME/.perl-extlib ]; then
+  path=( $HOME/.perl-extlib/bin $path )
+fi
 
 
 # rvm
