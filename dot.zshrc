@@ -107,6 +107,9 @@ zstyle ':completion:*:default' menu select=1
 # case-insensitive (uppercase from lowercase) completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
+# mosh
+compdef mosh=ssh
+
 # ssh completion
 hosts=( ${(@)${${(M)${(s:# :)${(zj:# :)${(Lf)"$([[ -f $HOME/.ssh/config ]] && < $HOME/.ssh/config)"}%%\#*}}##host(|name) *}#host(|name) }/\*} )
 zstyle ':completion:*:hosts' hosts $hosts
@@ -291,6 +294,10 @@ bindkey '^x^p' pbcopy-buffer
 if [ -d $HOME/.perl-extlib ]; then
   path=( $HOME/.perl-extlib/bin $path )
 fi
+
+
+# nvm
+[[ -s $HOME/.nvm/nvm.sh ]] && source $HOME/.nvm/nvm.sh
 
 
 # rvm
