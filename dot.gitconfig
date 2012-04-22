@@ -1,6 +1,6 @@
 [user]
 	name = n0ts
-	email = me@nts.org
+	email = me@n0ts.org
 [alias]
 	graph = log --graph --pretty='format:%h %Cgreen%an%Creset | %s %Cred%d%Creset'
         ad = add
