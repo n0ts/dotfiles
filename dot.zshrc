@@ -57,21 +57,44 @@ SAVEHIST=200000
 HISTFILE=$HOME/.zhistory
 function history-all { history -E 1 }
 
+# path
+fpath=($HOME/.zfunctions $fpath)
+ospath=( /usr/{,s}bin /{,s}bin )
+localpath=( /opt/*/{,s}bin /usr/local/{,s}bin /usr/X11R6/{,s}bin )
+homepath=( $HOME/.{,s}bin )
+path=( $homepath $localpath $ospath )
+
+# load platform configuration
+export OSTYPE=`uname -s`
+case $OSTYPE in
+  Linux*)
+    [ -r $HOME/.zshrc.linux ] && source $HOME/.zshrc.linux
+  ;;
+  FreeBSD*)
+    [ -r $HOME/.zshrc.freebsd ] && source $HOME/.zshrc.freebsd
+  ;;
+  Darwin*)
+    [ -r $HOME/.zshrc.darwin ] && source $HOME/.zshrc.darwin
+  ;;
+esac
+
 # environment variable configuration
 export LANG=en_US.UTF-8
 export LESSCHARSET=UTF-8
 export LESS='-R'
-if [ -x "`which nkf 2> /dev/null`" ]; then
-  export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s | nkf'
-else
-  export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s'
+which source-highlight
+if [ -x "`which source-highlight 2> /dev/null`" ]; then
+  if [ -x "`which nkf 2> /dev/null`" ]; then
+    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s | nkf'
+  else
+    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s'
+  fi
 fi
 export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?'
 export HOST=`hostname`
 export PAGER=less
-export OSTYPE=`uname -s`
 export LSCOLORS=dxfxcxdxbxegedabagacad
-if [ -x `which emacsclient 2> /dev/null` ]; then
+if [ -x "`which emacsclient 2> /dev/null`" ]; then
   export EDITOR=emacsclient
 else
   export EDITOR=vi
@@ -145,15 +168,6 @@ fi
 SPROMPT="%{[31m%}'%r' is correct? [n,y,a,e] %{${reset_color}%}"
 
 
-# path
-fpath=($HOME/.zfunctions $fpath)
-ospath=( /usr/{,s}bin /{,s}bin )
-localpath=( /opt/*/{,s}bin /usr/local/{,s}bin /usr/X11R6/{,s}bin )
-homepath=( $HOME/.{,s}bin )
-path=( $homepath $localpath $ospath )
-typeset -U path cdpath fpath manpath
-
-
 # aliases
 if gls --color > /dev/null 2>&1; then
   alias ls='gls --color=auto -F'
@@ -198,7 +212,7 @@ alias sd='sudo -H -s'
 alias sudo='sudo -H'
 alias sudu=sudo
 alias tf='tail -f'
-if [  -x "`which vim 2> /dev/null`" ]; then
+if [ -x "`which vim 2> /dev/null`" ]; then
   alias v='vim'
 else
   alias v='vi'
@@ -304,20 +318,10 @@ fi
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 
 
-# load platform configuration
-case $OSTYPE in
-  Linux*)
-    [ -r $HOME/.zshrc.linux ] && source $HOME/.zshrc.linux
-  ;;
-  FreeBSD*)
-    [ -r $HOME/.zshrc.freebsd ] && source $HOME/.zshrc.freebsd
-  ;;
-  Darwin*)
-    [ -r $HOME/.zshrc.darwin ] && source $HOME/.zshrc.darwin
-  ;;
-esac
-
-
 # load local configuration
 [ -r $HOME/.zshrc.local ] && source $HOME/.zshrc.local
+
+
+# uniquify my $PATH
+typeset -U path cdpath fpath manpath
 
