@@ -82,7 +82,6 @@ esac
 export LANG=en_US.UTF-8
 export LESSCHARSET=UTF-8
 export LESS='-R'
-which source-highlight
 if [ -x "`which source-highlight 2> /dev/null`" ]; then
   if [ -x "`which nkf 2> /dev/null`" ]; then
     export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s | nkf'
