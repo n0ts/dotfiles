@@ -195,6 +195,7 @@ fi
 alias g=git
 alias grep='grep --color'
 alias h=history
+alias less='less --tabs=4'
 alias mkdir='nocorrect mkdir'
 alias mv='nocorrect mv'
 alias mysql='mysql --auto-rehash'
