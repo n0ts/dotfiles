@@ -307,7 +307,8 @@ bindkey '^x^p' pbcopy-buffer
 PERL_CPANM_LOCAL_LIB=$HOME/.perl-extlib
 export PERL_CPANM_OPT="--local-lib=$PERL_CPANM_LOCAL_LIB"
 if [ -d $PERL_CPANM_LOCAL_LIB ]; then
-  path=( $PERL_CPANM_LOCAL_LIB $path )
+  export PERL5LIB="$PERL_CPANM_LOCAL_LIB/lib/perl5"
+  path=( $PERL_CPANM_LOCAL_LIB/bin $path )
 fi
 
 
