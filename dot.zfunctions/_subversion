@@ -2,6 +2,13 @@
 
 _svn () {
   local curcontext="$curcontext" state line expl ret=1
+  typeset -A opt_args
+
+  local update_policy
+  zstyle -s ":completion:*:*:$service:*" cache-policy update_policy
+  if [[ -z "$update_policy" ]]; then
+    zstyle ":completion:*:*:$service:*" cache-policy _svn_caching_policy
+  fi
 
   _arguments -C \
     '(-)--help[print help information]' \
@@ -11,9 +18,12 @@ _svn () {
 
   if [[ -n $state ]] && (( ! $+_svn_cmds )); then
     typeset -gHA _svn_cmds
-    _svn_cmds=(
-      ${=${(f)${${"$(LC_ALL=C _call_program commands svn help)"#l#*Available subcommands:}%%Subversion is a tool*}}/(#s)[[:space:]]#(#b)([a-z]##)[[:space:]]#(\([a-z, ?]##\))#/$match[1] :$match[1]${match[2]:+:${${match[2]//[(),]}// /:}}:}
-    )
+    if _cache_invalid svn-cmds || ! _retrieve_cache svn-cmds; then
+      _svn_cmds=(
+	${=${(f)${${"$(LC_ALL=C _call_program commands svn help)"#l#*Available subcommands:}%%Subversion is a tool*}}/(#s)[[:space:]]#(#b)([a-z]##)[[:space:]]#(\([a-z, ?]##\))#/$match[1] :$match[1]${match[2]:+:${${match[2]//[(),]}// /:}}:}
+      )
+      _store_cache svn-cmds _svn_cmds
+    fi
   fi
 
   case $state in
@@ -21,17 +31,30 @@ _svn () {
       _wanted commands expl 'svn command' _svn_commands && ret=0
     ;;
     args)
-      local cmd args usage
-      typeset -gHA _cache_svn_status
+      local cmd args usage idx
+      typeset -gHA _cache_svn_status _cache_svn_mtime
 
       cmd="${${(k)_svn_cmds[(R)*:$words[1]:*]}:-${(k)_svn_cmds[(i):$words[1]:]}}"
       if (( $#cmd )); then
         curcontext="${curcontext%:*:*}:svn-${cmd}:"
 
-        usage=${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"}:#usage:*}#usage:*$cmd] }
-        args=(
-          ${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"##*Valid options:}:#* :*}%% #:*}/ ARG/:ARG:}/(#b)-([[:alpha:]]) \[--([a-z-]##)\](:ARG:)#/(--$match[2])-$match[1]$match[3] (-$match[1])--$match[2]$match[3]}
-        )
+	if _cache_invalid svn-${cmd}-usage || \
+	    ! _retrieve_cache svn-${cmd}-usage;
+	then
+	  usage=${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"}:#usage:*}#usage:*$cmd] }
+	  _store_cache svn-${cmd}-usage usage
+	fi
+	if _cache_invalid svn-${cmd}-usage || \
+	    ! _retrieve_cache svn-${cmd}-args;
+	then
+	  args=(
+	    ${=${${${(M)${(f)"$(LC_ALL=C _call_program options svn help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)(-##)([[:alpha:]]##) \[--([a-z-]##)\](:arg:)#/(--$match[3])$match[1]$match[2]$match[4] ($match[1]$match[2])--$match[3]$match[4]}
+	  )
+          while (( idx=$args[(I)*--c(l|hangelist):arg:] )); do
+            args[(I)*--c(l|hangelist):arg:]=( \*{--cl,--changelist}':change list:_svn_changelists' )
+          done
+	  _store_cache svn-${cmd}-args args
+	fi
 
         case $cmd in;
           (add)
@@ -41,7 +64,7 @@ _svn () {
           ;;
           (commit)
             args=(
-	      ${args/(#b)(*--file*):ARG:/$match[1]:file:_files}
+	      ${args/(#b)(*--file*):arg:/$match[1]:file:_files}
               '*:file:_files -g "*(e:_svn_status:)"'
             )
           ;;
@@ -72,6 +95,9 @@ _svn () {
 	      '*:file:_files -g "*(e:_svn_controlled:)"'
             )
           ;;
+          (mergeinfo)
+            args[(r)--show-revs:arg:]=( '--show-revs:revisions:(merged eligible)' )
+          ;;
 	  (propget|propedit)
 	    args+=(
 		'1:property name:_svn_props'
@@ -81,7 +107,7 @@ _svn () {
 	  (propset)
 	    args=(
 	    ':propname:(svn:ignore svn:keywords svn:executable svn:eol-style svn:mime-type svn:externals svn:needs-lock)'
-	    ${args/(#b)(*--file*):ARG:/$match[1]:file:_files}
+	    ${args/(#b)(*--file*):arg:/$match[1]:file:_files}
 	    '*:path or url: _alternative "files:file:_files" "urls:URL:_svn_urls"'
 	    )
 	  ;;
@@ -148,9 +174,9 @@ _svnadmin () {
 
         usage=${${(M)${(f)"$(LC_ALL=C _call_program options svnadmin help $cmd)"}:#$cmd: usage:*}#$cmd: usage: svnadmin $cmd }
         args=(
-          ${=${${${(M)${(f)"$(LC_ALL=C _call_program options svnadmin help $cmd)"##*Valid options:}:#*:*}%% #:*}/ ARG/:ARG:}/(#b)-([[:alpha:]]) \[--([a-z-]##)\](:ARG:)#/(--$match[2])-$match[1]$match[3] (-$match[1])--$match[2]$match[3]}
+          ${=${${${(M)${(f)"$(LC_ALL=C _call_program options svnadmin help $cmd)"#(*Valid options:|(#e))}:#* :*}%% #:*}/ (arg|ARG)/:arg:}/(#b)-([[:alpha:]]) \[--([a-z-]##)\](:arg:)#/(--$match[2])-$match[1]$match[3] (-$match[1])--$match[2]$match[3]}
         )
-        if [[ $_svnadmin_subcmd_usage == *REPOS_PATH* ]]; then
+        if [[ $usage == *REPOS_PATH* ]]; then
           args+=( ":path:_files -/" )
         elif [[ $cmd = help ]]; then
           args+=( "*:subcommand:_svnadmin_commands" )
@@ -193,40 +219,81 @@ _svn_status() {
   local dir=$REPLY:h
   local pat="${1:-([ADMR~]|?M)}"
 
-  if (( ! $+_cache_svn_status[$dir] )); then
-    _cache_svn_status[$dir]="$(_call_program files svn status -N $dir)"
+  zmodload -F zsh/stat b:zstat 2>/dev/null
+  local key="$(zstat +device $dir):$(zstat +inode $dir)"
+  local mtime="$(zstat +mtime $dir/.svn/entries)"
+
+  if (( ! $+_cache_svn_status[$key] || _cache_svn_mtime[$key] != mtime )); then
+    _cache_svn_status[$key]="$(_call_program files svn status -N $dir)"
+    _cache_svn_mtime[$key]="$mtime"
   fi
 
-  (( ${(M)#${(f)_cache_svn_status[$dir]}:#(#s)${~pat}*$REPLY} ))
+  (( ${(M)#${(f)_cache_svn_status[$key]}:#(#s)${~pat}*$REPLY} ))
+}
+
+(( $+functions[_svn_remote_paths] )) ||
+_svn_remote_paths() {
+  local expl remfiles remdispf remdispd suf ret=1 pfx='\^/' sub='^/'
+
+  # prefix must match a valid repository path format, either standard style
+  # schema://host/path/.. or ^/path/.. specifying a path relative to the
+  # root of the working directory repository.  In the second form, allow the
+  # leading '^' be escaped in case the user has the extendedglob option set.
+  [[ -prefix *://*/ ]] ||
+  [[ -f .svn/entries && ( -prefix '^/' || -prefix '\^/' ) ]] ||
+  return 1
+
+  # return if remote access is not permitted
+  zstyle -T ":completion:${curcontext}:" remote-access || return 1
+
+  remfiles=( ${(f)"$(svn list $IPREFIX${${PREFIX%%[^/]#}/#$pfx/$sub} 2>/dev/null)"} )
+  (( $? == 0 )) || return 1
+
+  # you might consider trying to return early if $#remfiles is zero,
+  # but for whatever reason remfiles will always contain at least a
+  # single empty string; that case is handled correctly below.
+
+  compset -P '*/'
+  compset -S '/*' || suf=file
+  remdispf=(${remfiles:#*/})
+  remdispd=(${(M)remfiles:#*/})
+  _tags files
+  while _tags; do
+    while _next_label files expl ${suf:-directory}; do
+      # add files, unless there is a '/' immediately to the right
+      [[ -n $suf ]] &&
+      compadd -S ' ' -q "$@" "$expl[@]" -d remdispf $remdispf && ret=0
+      # add directories; use empty suffix if there is a '/' immediately to the right
+      compadd -S "${suf:+/}" -q "$@" "$expl[@]" -d remdispd ${remdispd%/} && ret=0
+    done
+    (( ret )) || return 0
+  done
+
+  return 1
 }
 
 (( $+functions[_svn_urls] )) ||
 _svn_urls() {
-  local expl remfiles remdispf remdispd suf ret=1
+  local urlsch expl ret=1
 
-  if [[ -prefix *: ]] && ! _urls &&
-      zstyle -T ":completion:${curcontext}:" remote-access
-  then
-    remfiles=( ${(f)"$(svn list $IPREFIX${PREFIX%%[^./][^/]#} 2>/dev/null)"} )
-    compset -P '*/'
-    compset -S '/*' || suf=file
-    remdispf=(${remfiles:#*/})
-    remdispd=(${(M)remfiles:#*/})
-    _tags files
-    while _tags; do
-      while _next_label files expl ${suf:-directory}; do
-        [[ -n $suf ]] && compadd "$@" "$expl[@]" -d remdispf $remdispf && ret=0
-        compadd ${suf:+-S/} "$@" "$expl[@]" -d remdispd \
-            ${remdispd%/} && ret=0
-      done
-      (( ret )) || return 0
-    done
-  else
-    compset -S '[^:]*'
-    _wanted url-schemas expl 'URL schema' compadd -S '' - \
-        file:// http:// https:// svn:// svn+ssh:// && ret=0
+  # first try completing a remote path; if successful, we are all done..
+  _svn_remote_paths && return 0
+
+  # allow configuring svn repository locations using the 'urls' zstyle.
+  # always attempt completion of these because then matcher-list styles
+  # which do substring matching will work correctly.
+  _urls -S/ && ret=0
+
+  if [[ ! -prefix *://? ]] ; then
+    zstyle -a ":completion:${curcontext}:" url-schemas urlsch \
+     || urlsch=( file:// http:// https:// svn:// svn+ssh:// )
+
+    if (( $#urlsch )) ; then
+      compset -S '[^:]*'
+      _wanted url-schemas expl 'URL schema' compadd -S '' - $urlsch[@] && ret=0
+    fi
   fi
-  
+
   return ret
 }
 
@@ -248,11 +315,23 @@ _svn_props() {
   compadd "$@" -a properties && return 0
 }
 
+(( $+functions[_svn_changelists] )) ||
+_svn_changelists() {
+  local cls
+
+  cls=( ${${${(M)${(f)"$(LC_ALL=C _call_program changelists svn status 2>/dev/null)"}:#--- Changelist*}%??}##*\'} )
+  compadd "$@" -a cls && return 0
+}
+
 _subversion () {
   case $service in
     (svn) _svn "$@" ;;
     (svnadmin) _svnadmin "$@" ;;
   esac
+}
+
+_svn_caching_policy() {
+  [[ =$service -nt $1 ]]
 }
 
 _subversion "$@"
