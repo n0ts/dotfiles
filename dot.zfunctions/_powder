@@ -1,0 +1,6 @@
+#compdef powder
+#autoload
+
+if [ -x "`which powder 2> /dev/null`" ]; then
+  compadd `powder help | grep powder | cut -d " " -f 4`
+fi
