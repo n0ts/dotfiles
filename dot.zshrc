@@ -120,6 +120,15 @@ autoload -U zstyle+
 autoload _canonical_paths args preexec
 source $HOME/.zfunctions/cdd
 
+# completion style
+zstyle ':completion:*' menu select
+zstyle ':completion:*' format '%F{white}%d%f'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' keep-prefix
+zstyle ':completion:*' completer _oldlist _complete _match _ignored \
+  _approximate _list _history
+
 # completion cache on
 zstyle ':completion:*' use-cache true
 
@@ -260,7 +269,9 @@ if [ -f ~/.auto-fo.zsh/auto-fu.zsh ]; then
     auto-fu-init
   }
   zle -N zle-line-init
-  zstyle ':completion:*' completer _oldlist _complete
+  zstyle ':auto-fu:highlight' input bold
+  zstyle ':auto-fu:highlight' completion fg=white
+  zstyle ':auto-fu:var' postdisplay ''
 fi
 
 
