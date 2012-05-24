@@ -263,15 +263,24 @@ bindkey '^o^_' reverse-menu-complete
 
 
 # auto-fu.zsh
-if [ -f ~/.auto-fo.zsh/auto-fu.zsh ]; then
-  source ~/.auto-fo.zsh/auto-fu.zsh
-  zle-line-init () {
-    auto-fu-init
-  }
-  zle -N zle-line-init
-  zstyle ':auto-fu:highlight' input bold
-  zstyle ':auto-fu:highlight' completion fg=white
-  zstyle ':auto-fu:var' postdisplay ''
+if [ -f $HOME/.auto-fo.zsh/auto-fu.zsh ]; then
+  # zsh version 4.3 or later
+  if [[ $ZSH_VERSION == 4.<3->* || $ZSH_VERSION == <5->* ]]; then
+    source $HOME/.auto-fo.zsh/auto-fu.zsh
+    zle-line-init () {
+      auto-fu-init
+    }
+    zle -N zle-line-init
+    zstyle ':auto-fu:highlight' input bold
+    zstyle ':auto-fu:highlight' completion fg=white
+    zstyle ':auto-fu:var' postdisplay ''
+  fi
+fi
+
+
+# zaw
+if [ -f $HOME/.zaw/zaw.zsh ]; then
+  source $HOME/.zaw/zaw.zsh
 fi
 
 
