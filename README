@@ -2,10 +2,39 @@ Naoya Nakazawa's dotfiles. dotfiles for emacs, zsh, mysql, top, git.
 
 * Support OS
   - OSX Lion 10.7 or later
-  - Linux (mostly CentOS 5 or later / SL 5 or later / Ubuntu 11 or later)
+  - Linux (mostly works in CentOS/SL 5 or later / Ubuntu 11 or later)
   - FreeBSD 8.x or later
 
 * Installation
-
-  $ cd dotfiles
+  $ git clone https://github.com/n0ts/dotfiles $HOME/.env
+  $ cd .env
   $ make
+
+
+** auto-fu.zsh
+  $ git clone https://github.com/hchbaw/auto-fu.zsh.git $HOME/.auto-fo.zsh
+
+** zaw
+  $ git clone https://github.com/zsh-users/zaw.git $HOME/.zaw
+
+** zsh-completion
+  $ git clone https://github.com/zsh-users/zsh-completions.git $HOME/.zsh-completions
+
+
+** cpanm
+  - for OSX
+  $ brew install cpanminus
+
+  - for Linux
+  $ curl -L http://cpanmin.us | perl - --local-lib=$HOME/.perl-extlib App::cpanminus
+  $ source $HOME/.zshrc
+
+
+** nvm
+  $ git clone git://github.com/creationix/nvm.git ~/nvm
+  $ . ~/nvm/nvm.sh
+
+
+** rvm
+  $ bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+
