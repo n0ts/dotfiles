@@ -3,5 +3,3 @@ prompt="\u@\h[\d]> "
 show-warnings
 auto-rehash
 
-[client]
-default-character = utf8
