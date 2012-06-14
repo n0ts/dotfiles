@@ -58,6 +58,7 @@ HISTFILE=$HOME/.zhistory
 function history-all { history -E 1 }
 
 # path
+[ -d $HOME/.zsh-completions ] && fpath=($HOME/.zsh-completions $fpath)
 fpath=($HOME/.zfunctions $fpath)
 ospath=( /usr/{,s}bin /{,s}bin )
 localpath=( /opt/*/{,s}bin /usr/local/{,s}bin /usr/X11R6/{,s}bin )
@@ -192,6 +193,7 @@ alias l=ls
 alias sl=l
 
 alias ack='nocorrect ack'
+alias be='bundle exec'
 alias c='clear'
 alias cp='nocorrect cp'
 alias df='df -h'
@@ -214,6 +216,8 @@ alias q=exit
 alias quit=exit
 alias r=rails
 alias rm='rm -i'
+alias ra=rake
+alias rs=rspec
 alias s=screen
 alias sd='sudo -H -s'
 alias sr='screen -D -RR'
@@ -274,13 +278,22 @@ if [ -f $HOME/.auto-fo.zsh/auto-fu.zsh ]; then
     zstyle ':auto-fu:highlight' input bold
     zstyle ':auto-fu:highlight' completion fg=white
     zstyle ':auto-fu:var' postdisplay ''
+    zstyle ':completion:*' completer _oldlist _complete
   fi
 fi
 
 
-# zaw
+# zaw.zsh
 if [ -f $HOME/.zaw/zaw.zsh ]; then
   source $HOME/.zaw/zaw.zsh
+  # local local zaw sources
+  local local_src_dir="$HOME/.zaw.sources/" f
+  if [[ -d "${local_src_dir}" ]]; then
+    for f ("${local_src_dir}"/*) source "${f}"
+  fi
+
+  bindkey '^R' zaw-history
+  bindkey '^U' zaw-cdd
 fi
 
 
