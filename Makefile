@@ -4,12 +4,14 @@ DESTDIR=${HOME}
 
 DOTS=\
 	.bin \
+        .ackrc \
 	.emacs \
 	.emacs.d \
 	.my.cnf \
         .gitconfig \
         .gitignore_global \
 	.screenrc \
+        .zaw.sources \
 	.zfunctions \
 	.zlogin \
 	.zshrc \
