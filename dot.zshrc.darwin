@@ -3,6 +3,9 @@
 #
 export HOMEBREW_PREFIX=`readlink $HOME/.homebrew`
 path=( $HOMEBREW_PREFIX/{,s}bin $path )
+if [ -d "`brew --prefix coreutils`/libexec/gnubin" ]; then
+  path=( $(brew --prefix coreutils)/libexec/gnubin $path )
+fi
 
 
 #
