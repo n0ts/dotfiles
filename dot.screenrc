@@ -160,7 +160,7 @@ markkeys h=^b:l=^f:$=^e
 # attrcolor u "-u b"
 # attrcolor b "R"
 # hardstatus alwayslastline "%-Lw%50>%n%f* %t%+Lw%<"
-hardstatus alwayslastline "[%m/%d/%y %02c] %`%-w%{=b bw}%n %t%{-}%+w"
+hardstatus alwayslastline "[%m/%d/%y %02c] %`%-w%{=b bw}%n %t%{-}%+w%=%H %l"
 
 defhstatus "^EY/^Em/^Ed(^ED)^Ec:^Es ${USER}@${HOST} [^En] ^Et"
 msgminwait 0
