@@ -1,31 +1,33 @@
 [user]
-	name = n0ts
-	email = me@n0ts.org
+    name = n0ts
+    email = me@n0ts.org
 [alias]
-	graph = log --graph --pretty='format:%h %Cgreen%an%Creset | %s %Cred%d%Creset'
-        ad = add
-	br = branch
-	ci = commit -a
-	c = commit
-	co = checkout
-        cm = checkout master
-        conf = config
-        fo = fetch origin
-        ft = fetch
-        lg = log --graph --pretty=oneline --decorate --date=short --abbrev-commit --branches
-        pr = pull --rebase
-        rc = rebase --continue
-        ro = rebase origin
-        sh = show
-        so = remote show origin
-	st = status
-        wd = diff --word-diff
+    graph = log --graph --pretty='format:%h %Cgreen%an%Creset | %s %Cred%d%Creset'
+    ad = add
+    br = branch
+    ci = commit -a
+    c = commit
+    co = checkout
+    cm = checkout master
+    conf = config
+    fo = fetch origin
+    ft = fetch
+    lg = log --graph --pretty=oneline --decorate --date=short --abbrev-commit --branches
+    pr = pull --rebase
+    rc = rebase --continue
+    ro = rebase origin
+    sh = show
+    so = remote show origin
+    st = status
+    wd = diff --word-diff
+[branch]
+    autosetupmerge = true
 [color]
-        branch = auto
-        diff = auto
-        grep = auto
-        interactive = auto
-	ui = auto
-        status = auto
+    branch = auto
+    diff = auto
+    grep = auto
+    interactive = auto
+    ui = auto
+    status = auto
 [core]
-	excludesfile = $HOME/.gitignore_global
+    excludesfile = $HOME/.gitignore_global
