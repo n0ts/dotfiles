@@ -171,6 +171,10 @@ zstyle -e ":completion:*:sudo:*" command-path 'reply=($path)'
 if [ "$TERM" != "dumb" ]; then
   PROMPT1='%{[$[31+$RANDOM % 6]m%}%B%U%m'"@%n%#%{[m%}%u%b "
   PROMPT2='%{[$[31+$RANDOM % 6]m%}%B%(?.%h.ERROR:%?) (%3c)%{[m%}%b'
+  if [ -n "${SSH_CLIENT}${SSH_CONNECTION}" ]; then
+    PROMPT1="%{[37m%}${HOST%%.*} ${PROMPT1}"
+  fi
+
   PROMPT="${PROMPT2}
 ${PROMPT1}"
 fi
@@ -199,6 +203,7 @@ alias cp='nocorrect cp'
 alias df='df -h'
 alias du='du -h'
 alias e='emacs -nw'
+alias egrep='egrep --color'
 alias f=finger
 if [  -x "`which hub 2> /dev/null`" ]; then
   alias git=hub
@@ -287,8 +292,8 @@ fi
 # zaw.zsh
 if [ -f $HOME/.zaw/zaw.zsh ]; then
   source $HOME/.zaw/zaw.zsh
-  # local local zaw sources
-  local local_src_dir="$HOME/.zaw.sources/" f
+  # load local zaw sources
+  local local_src_dir="$HOME/.zaw.sources"
   if [[ -d "${local_src_dir}" ]]; then
     for f ("${local_src_dir}"/*) source "${f}"
   fi
