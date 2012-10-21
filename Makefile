@@ -30,7 +30,7 @@ clean: dots-clean
 
 ${DOTS}:
 	rm -f ${DESTDIR}/${subst dot,,$@}
-	ln -s ${PWD}/dot$@ ${DESTDIR}/${subst dot,,$@}
+	ln -s `pwd`/dot$@ ${DESTDIR}/${subst dot,,$@}
 
 ${DOTS_LOCAL}:
 	touch ${DESTDIR}/${subst dot,,$@}
