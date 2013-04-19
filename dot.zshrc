@@ -58,7 +58,7 @@ HISTFILE=$HOME/.zhistory
 function history-all { history -E 1 }
 
 # path
-[ -d $HOME/.zsh-completions ] && fpath=($HOME/.zsh-completions $fpath)
+[ -d $HOME/.zsh-completions ] && fpath=($HOME/.zsh-completions/src $fpath)
 fpath=($HOME/.zfunctions $fpath)
 ospath=( /usr/{,s}bin /{,s}bin )
 localpath=( /opt/*/{,s}bin /usr/local/{,s}bin /usr/X11R6/{,s}bin )
@@ -118,8 +118,9 @@ fi
 # turn on auto-completion
 autoload -U compinit; compinit -u;
 autoload -U zstyle+
-autoload _canonical_paths args preexec
-source $HOME/.zfunctions/cdd
+autoload _canonical_paths args
+[ -f $HOME/.zfunctions/cdd ] && source $HOME/.zfunctions/cdd
+[ -f $HOME/.zfunctions/preexec ] && source $HOME/.zfunctions/preexec
 
 # completion style
 zstyle ':completion:*' menu select
@@ -237,6 +238,7 @@ else
   alias v='vi'
 fi
 alias x=exit
+#alias watch='watch -n 1 -dc'
 
 alias -s zip=zipinfo
 alias -s tgz=gzcat
@@ -270,7 +272,6 @@ dabbrev-complete () {
 zle -C dabbrev-complete menu-complete dabbrev-complete
 bindkey '^o' dabbrev-complete
 bindkey '^o^_' reverse-menu-complete
-
 
 # auto-fu.zsh
 if [ -f $HOME/.auto-fo.zsh/auto-fu.zsh ]; then
@@ -342,7 +343,6 @@ pbcopy-buffer() {
 zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
 
-
 # cpanm
 PERL_CPANM_LOCAL_LIB=$HOME/.perl-extlib
 export PERL_CPANM_OPT="--local-lib=$PERL_CPANM_LOCAL_LIB"
@@ -357,8 +357,11 @@ fi
 
 
 # rvm
-[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
-
+if [ -s $HOME/.rvm/scripts/rvm ]; then
+    source $HOME/.rvm/scripts/rvm
+    path=( $HOME/.rvm/bin $path )
+    [[ $TERM_PROGRAM == "iTerm.app" ]] && __rvm_project_rvmrc
+fi
 
 # load local configuration
 [ -r $HOME/.zshrc.local ] && source $HOME/.zshrc.local
@@ -366,4 +369,19 @@ fi
 
 # uniquify my $PATH
 typeset -U path cdpath fpath manpath
+
+
+# zcompile
+if [ ! -e $HOME/.zshrc.zwc ]; then
+  zcompile $HOME/.zshrc
+fi
+if [ ! -f $HOME/.zshrc.local.zwc ]; then
+  zcompile $HOME/.zshrc.local
+fi
+if [ $HOME/.zshrc -nt $HOME/.zshrc.zwc ]; then
+  zcompile $HOME/.zshrc
+fi
+if [ $HOME/.zshrc.local -nt $HOME/.zshrc.local.zwc ]; then
+  zcompile $HOME/.zshrc.local
+fi
 
