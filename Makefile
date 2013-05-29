@@ -5,11 +5,13 @@ DESTDIR=${HOME}
 DOTS=\
 	.bin \
         .ackrc \
+	.editrc \
 	.emacs \
 	.emacs.d \
 	.my.cnf \
         .gitconfig \
         .gitignore_global \
+        .inputrc \
 	.screenrc \
         .zaw.sources \
 	.zfunctions \
