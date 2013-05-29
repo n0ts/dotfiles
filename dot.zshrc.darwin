@@ -3,18 +3,30 @@
 #
 export HOMEBREW_PREFIX=`readlink $HOME/.homebrew`
 path=( $HOMEBREW_PREFIX/{,s}bin $path )
+# coreutils
 if [ -d "`brew --prefix coreutils`/libexec/gnubin" ]; then
   path=( $(brew --prefix coreutils)/libexec/gnubin $path )
+fi
+# python
+if [ -d "`brew --prefix python`" ]; then
+  PYTHON_VERSION=`python -c "from distutils.sysconfig import get_python_version; print get_python_version()"`
+  PYTHON_CELLAR=`brew --cellar python`
+  export PYTHONPATH=$PYTHONPATH:$PYTHON_CELLAR/$PYTHON_VERSION/
+  path=( $HOMEBREW_PREFIX/share/python/ $path )
 fi
 
 
 #
-# AUTOJUMP
-# https://github.com/joelthelion/autojump
+# byobu
 #
-alias j="autojump"
-if [ -f $HOMEBREW_PREFIX/etc/autojump ]; then
-  . $HOMEBREW_PREFIX/etc/autojump
+export BYOBU_PREFIX=$(brew --prefix)
+
+
+#
+# Heroku
+#
+if [ -d /usr/local/heroku/bin ]; then
+  path=( /usr/local/heroku/bin $path )
 fi
 
 
@@ -24,3 +36,33 @@ fi
 if [ -h /Library/Java/Home ]; then
   export JAVA_HOME=/Library/Java/Home
 fi
+
+
+#
+# MySQL
+#
+if [ -d /usr/local/mysql ]; then
+  path=( /usr/local/mysql/{bin,sbin} $path )
+fi
+
+
+#
+# MySQL workbench
+#
+if [ -d /Applications/MySQLWorkbench.app/Contents/Resources/scripts/ ]; then
+  path=(/Applications/MySQLWorkbench.app/Contents/Resources/scripts $path )
+  export PYTHONPATH="/Applications/MySQLWorkbench.app/Contents/Resources/libraries/mysql_libs.zip"
+fi
+
+
+#
+# Z
+#
+if [ -f `brew --prefix`/etc/profile.d/z.sh ]; then
+  Z_CMD=j
+  . `brew --prefix`/etc/profile.d/z.sh
+  precmd() {
+    _z --add "$(pwd -P)"
+  }
+fi
+
