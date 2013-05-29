@@ -1,5 +1,7 @@
-[mysql]
-prompt="\u@\h[\d]> "
-show-warnings
-auto-rehash
+[client]
+port = 3306
 
+[mysql]
+prompt="\u@\h[\d] mysql> "
+show-warnings
+no-auto-rehash
