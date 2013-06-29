@@ -61,7 +61,7 @@ function history-all { history -E 1 }
 [ -d $HOME/.zsh-completions ] && fpath=($HOME/.zsh-completions/src $fpath)
 fpath=($HOME/.zfunctions $fpath)
 ospath=( /usr/{,s}bin /{,s}bin )
-localpath=( /opt/*/{,s}bin /usr/local/{,s}bin /usr/X11R6/{,s}bin )
+localpath=( /opt/*/{,s}bin /usr/local/{,s}bin /usr/local/*/{,s}bin /usr/X11R6/{,s}bin )
 homepath=( $HOME/.{,s}bin )
 path=( $homepath $localpath $ospath )
 

@@ -23,26 +23,10 @@ export BYOBU_PREFIX=$(brew --prefix)
 
 
 #
-# Heroku
-#
-if [ -d /usr/local/heroku/bin ]; then
-  path=( /usr/local/heroku/bin $path )
-fi
-
-
-#
 # Java
 #
 if [ -h /Library/Java/Home ]; then
   export JAVA_HOME=/Library/Java/Home
-fi
-
-
-#
-# MySQL
-#
-if [ -d /usr/local/mysql ]; then
-  path=( /usr/local/mysql/{bin,sbin} $path )
 fi
 
 
