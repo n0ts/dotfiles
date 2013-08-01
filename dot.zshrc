@@ -363,6 +363,14 @@ if [ -s $HOME/.rvm/scripts/rvm ]; then
     [[ $TERM_PROGRAM == "iTerm.app" ]] && __rvm_project_rvmrc
 fi
 
+# rbenv
+if [ -s $HOME/.rbenv ]; then
+    export RBENV_ROOT=$HOME/.rbenv
+    path=( $RBENV_ROOT/bin $path )
+    $(rbenv init -zsh)
+fi
+
+
 # load local configuration
 [ -r $HOME/.zshrc.local ] && source $HOME/.zshrc.local
 
