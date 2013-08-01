@@ -367,7 +367,7 @@ fi
 if [ -s $HOME/.rbenv ]; then
     export RBENV_ROOT=$HOME/.rbenv
     path=( $RBENV_ROOT/bin $path )
-    $(rbenv init -zsh)
+    eval "$(rbenv init -zsh)"
 fi
 
 
