@@ -343,33 +343,26 @@ pbcopy-buffer() {
 zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
 
-# cpanm
-PERL_CPANM_LOCAL_LIB=$HOME/.perl-extlib
-export PERL_CPANM_OPT="--local-lib=$PERL_CPANM_LOCAL_LIB"
-if [ -d $PERL_CPANM_LOCAL_LIB ]; then
-  export PERL5LIB="$PERL_CPANM_LOCAL_LIB/lib/perl5"
-  path=( $PERL_CPANM_LOCAL_LIB/bin $path )
+# plenv
+export PLENV_HOME=$HOME/.plenv
+if [ -s $PLENV_HOME ]; then
+    path=( $PLENV_ROOT/bin $path )
+    eval "$(plenv init - zsh)"
 fi
 
-
-# nvm
-[[ -s $HOME/.nvm/nvm.sh ]] && source $HOME/.nvm/nvm.sh
-
-
-# rvm
-if [ -s $HOME/.rvm/scripts/rvm ]; then
-    source $HOME/.rvm/scripts/rvm
-    path=( $HOME/.rvm/bin $path )
-    [[ $TERM_PROGRAM == "iTerm.app" ]] && __rvm_project_rvmrc
+# pyenv
+export PYENV_ROOT=$HOME/.pyenv
+if [ -s $PYENV_ROOT ]; then
+    path=( $PYENV_ROOT/bin $path )
+    eval "$(rbenv init - zsh)"
 fi
 
 # rbenv
-if [ -s $HOME/.rbenv ]; then
-    export RBENV_ROOT=$HOME/.rbenv
+export RBENV_ROOT=$HOME/.rbenv
+if [ -s $RBENV_ROOT ]; then
     path=( $RBENV_ROOT/bin $path )
-    eval "$(rbenv init -zsh)"
+    eval "$(rbenv init - zsh)"
 fi
-
 
 # load local configuration
 [ -r $HOME/.zshrc.local ] && source $HOME/.zshrc.local
