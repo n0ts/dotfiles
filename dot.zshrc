@@ -1,5 +1,4 @@
 #!/bin/zsh
-ruby -e 'puts "%.3f" % Time.now'
 
 # see manual umask
 umask 022
@@ -360,5 +359,3 @@ bindkey '^x^p' pbcopy-buffer
 # uniquify my $PATH
 typeset -U path cdpath fpath manpath
 
-
-ruby -e 'puts "%.3f" % Time.now'
