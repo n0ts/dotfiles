@@ -4,16 +4,16 @@ DESTDIR=${HOME}
 
 DOTS=\
 	.bin \
-        .ackrc \
+	.ackrc \
 	.editrc \
 	.emacs \
 	.emacs.d \
 	.my.cnf \
-        .gitconfig \
-        .gitignore_global \
-        .inputrc \
+	.gitconfig \
+	.gitignore_global \
+	.inputrc \
 	.screenrc \
-        .zaw.sources \
+	.zaw.sources \
 	.zfunctions \
 	.zlogin \
 	.zshrc \
@@ -24,7 +24,11 @@ DOTS=\
 DOTS_LOCAL=\
 	dot.emacs.local \
 	dot.zshrc.local
-	
+
+DOTS_ZSH=\
+	.zshrc.test
+
+
 all: setup
 setup: dots-setup
 dots-setup: ${DOTS} ${DOTS_LOCAL}
@@ -44,5 +48,16 @@ clean:
 dots-clean:
 	rm -f ${foreach p,${DOTS},${DESTDIR}/${p}}
 
-dots_local-clean:
+dots-local-clean:
 	rm -f ${foreach p,${DOTS_LOCAL},${DESTDIR}/${p}}
+
+
+dots-zwc:
+	zsh -c "zcompile ${DESTDIR}/.zshrc"
+	zsh -c "zcompile ${DESTDIR}/.zshrc.linux"
+	zsh -c "zcompile ${DESTDIR}/.zshrc.freebsd"
+	zsh -c "zcompile ${DESTDIR}/.zshrc.darwin"
+	zsh -c "zcompile ${DESTDIR}/.zshrc.local"
+
+dots-zwc-clean:
+	rm -f ${DESTDIR}/.*.zwc

@@ -9,4 +9,3 @@
 (setq default-buffer-file-coding-system 'utf-8)
 (set-buffer-file-coding-system 'utf-8)
 (set-clipboard-coding-system 'utf-8)
-(utf-translate-cjk-mode t)

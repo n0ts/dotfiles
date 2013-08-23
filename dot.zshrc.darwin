@@ -1,31 +1,50 @@
 #
 # Homebrew
 #
-export HOMEBREW_PREFIX=`readlink $HOME/.homebrew`
-path=( $HOMEBREW_PREFIX/{,s}bin $path )
+export BREW_HOME=$HOME/.homebrew
+if [ -d $BREW_HOME ]; then
+  path=( $BREW_HOME/{,s}bin $path )
+fi
+
 # coreutils
-if [ -d "`brew --prefix coreutils`/libexec/gnubin" ]; then
+if [ -d "$(brew --prefix coreutils)/libexec/gnubin" ]; then
   path=( $(brew --prefix coreutils)/libexec/gnubin $path )
 fi
-# python
-if [ -d "`brew --prefix python`" ]; then
-  PYTHON_VERSION=`python -c "from distutils.sysconfig import get_python_version; print get_python_version()"`
-  PYTHON_CELLAR=`brew --cellar python`
-  export PYTHONPATH=$PYTHONPATH:$PYTHON_CELLAR/$PYTHON_VERSION/
-  path=( $HOMEBREW_PREFIX/share/python/ $path )
+
+# byobu
+if [ -d "$(brew --prefix byobu)" ]; then
+  export BYOBU_PREFIX=$(brew --prefix)
 fi
 
+# plenv
+if [ -f "$(brew --prefix plenv)/completions/plenv.zsh" ]; then
+  source $(brew --prefix plenv)/completions/plenv.zsh
+fi
 
-#
-# byobu
-#
-export BYOBU_PREFIX=$(brew --prefix)
+# pyenv
+if [ -f "$(brew --prefix pyenv)/completions/pyenv.zsh" ]; then
+  source `brew --prefix pyenv`/completions/pyenv.zsh
+fi
+
+# Z
+if [ -f "$(brew --prefix z)/etc/profile.d/z.sh" ]; then
+  Z_CMD=j
+  source $(brew --prefix z)/etc/profile.d/z.sh
+  precmd() {
+    _z --add "$(pwd -P)"
+  }
+fi
+
+# zsh-completions
+if [ -d "$(brew --prefix  zsh-completions)/share/zsh-completions" ]; then
+  fpath=( $(brew --prefix  zsh-completions)/share/zsh-completions $fpath )
+fi
 
 
 #
 # Java
 #
-if [ -h /Library/Java/Home ]; then
+if [ -d /Library/Java/Home ]; then
   export JAVA_HOME=/Library/Java/Home
 fi
 
@@ -36,33 +55,5 @@ fi
 if [ -d /Applications/MySQLWorkbench.app/Contents/Resources/scripts/ ]; then
   path=(/Applications/MySQLWorkbench.app/Contents/Resources/scripts $path )
   export PYTHONPATH="/Applications/MySQLWorkbench.app/Contents/Resources/libraries/mysql_libs.zip"
-fi
-
-
-#
-# plenv
-#
-if [ -f `brew --prefix plenv`/completions/plenv.zsh ]; then
-  source `brew --prefix plenv`/completions/plenv.zsh
-fi
-
-
-#
-# pyenv
-#
-if [ -f `brew --prefix pyenv`/completions/pyenv.zsh ]; then
-  source `brew --prefix pyenv`/completions/pyenv.zsh
-fi
-
-
-#
-# Z
-#
-if [ -f `brew --prefix`/etc/profile.d/z.sh ]; then
-  Z_CMD=j
-  . `brew --prefix`/etc/profile.d/z.sh
-  precmd() {
-    _z --add "$(pwd -P)"
-  }
 fi
 

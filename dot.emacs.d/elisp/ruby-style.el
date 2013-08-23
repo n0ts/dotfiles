@@ -17,7 +17,7 @@
 ;;; Customize the c-default-style variable to set the default style
 ;;; for each CC major mode.
 
-(defconst ruby-style-revision "$Revision: 28010 $"
+(defconst ruby-style-revision "$Revision: 30485 $"
   "Ruby style revision string.")
 
 (defconst ruby-style-version
@@ -54,6 +54,7 @@
    (c-basic-offset . 4)
    (tab-width . 8)
    (indent-tabs-mode . t)
+   (setq show-trailing-whitespace t)
    (c-offsets-alist
     (case-label . *)
     (label . (ruby-style-label-indent *))

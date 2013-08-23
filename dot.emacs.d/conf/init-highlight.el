@@ -1,13 +1,13 @@
 ;; -*- Mode: Emacs-Lisp ; Coding: utf-8 -*-
 
-;; show line-number & column-number
-(line-number-mode t)
+;; show line & column number
+(global-linum-mode 1)
 (column-number-mode t)
 
 ;; highlight current line
 (require 'highlight-current-line)
 (highlight-current-line-on t)
-(set-face-background 'highlight-current-line-face "gray4")
+(set-face-background 'highlight-current-line-face "gray10")
 
 
 ;; paren mode

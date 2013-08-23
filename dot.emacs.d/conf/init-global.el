@@ -24,3 +24,5 @@
 (setq visible-bell t)
 (setq ring-bell-function (lambda ()))
 
+;; drap&drap file
+(define-key global-map [ns-drag-file] 'ns-find-file)

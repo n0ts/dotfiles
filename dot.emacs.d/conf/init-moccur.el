@@ -3,4 +3,4 @@
 (require 'color-moccur)
 (require 'moccur-edit)
 (setq dmoccur-exclusion-mask
-      (append '("\\~$" "\\.svn\\/\*") dmoccur-exclusion-mask))
+      (append '("\\~$" "\\.svn\\/\*" "\\.git\\/\*") dmoccur-exclusion-mask))

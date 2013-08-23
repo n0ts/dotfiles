@@ -9,4 +9,4 @@
 (add-to-list 'backup-directory-alist
                   (cons tramp-file-name-regexp nil))
 (add-to-list 'tramp-remote-path "/usr/bin")
-(modify-coding-system-alist 'process "ssh" 'euc-japan-unix)
+(modify-coding-system-alist 'process "ssh" 'utf-8-unix)

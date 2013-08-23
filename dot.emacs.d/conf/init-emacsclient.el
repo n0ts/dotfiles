@@ -2,7 +2,6 @@
 
 ;; emacsclient with elscreen
 (require 'server)
-(require 'elscreen nil t)
 
 (defvar server-edit-file-coding-system-alist nil
   "*A alist of file name REGEXP to CODING-SYSTEM for server edit.

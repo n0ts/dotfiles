@@ -1,6 +1,6 @@
 (require 'flymake)
 
-(set-face-background 'flymake-errline "red4")
+(set-face-background 'flymake-errline "indian red")
 (set-face-foreground 'flymake-errline "black")
 (set-face-background 'flymake-warnline "yellow")
 (set-face-foreground 'flymake-warnline "black")

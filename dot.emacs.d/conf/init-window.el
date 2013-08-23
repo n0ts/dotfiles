@@ -1,9 +1,8 @@
 ;; -*- Mode: Emacs-Lisp ; Coding: utf-8 -*-
 
-;; hide menu-bar & tool-bar
-(menu-bar-mode nil)
-(when window-system
-  (tool-bar-mode nil))
+;; menu-bar tool-bar-mode
+(if window-system (menu-bar-mode 1) (menu-bar-mode -1))
+(if window-system (tool-bar-mode -1) (tool-bar-mode -1))
 
 ;; title-bar
 (setq frame-title-format 
@@ -12,10 +11,6 @@
 ;; default frame style
 (setq default-frame-alist
   (append (list
-    '(top . 20)
-    '(left . 0)
-    '(width . 100)
-    '(height . 45)
     '(foreground-color . "white")
     '(background-color . "black")
     '(border-color . "black")

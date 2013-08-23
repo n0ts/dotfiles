@@ -2,7 +2,6 @@
 
 (setq auto-mode-alist 
   (append '(
-
             ("\\.js$"   . javascript-mode)
             ("\\.pl$"   . cperl-mode)
             ("\\.perl$" . cperl-mode)

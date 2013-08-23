@@ -1,4 +1,5 @@
 #!/bin/zsh
+ruby -e 'puts "%.3f" % Time.now'
 
 # see manual umask
 umask 022
@@ -181,7 +182,6 @@ ${PROMPT1}"
 fi
 SPROMPT="%{[31m%}'%r' is correct? [n,y,a,e] %{${reset_color}%}"
 
-
 # aliases
 if gls --color > /dev/null 2>&1; then
   alias ls='gls --color=auto -F'
@@ -206,7 +206,7 @@ alias du='du -h'
 alias e='emacs -nw'
 alias egrep='egrep --color'
 alias f=finger
-if [  -x "`which hub 2> /dev/null`" ]; then
+if [ -x "`which hub 2> /dev/null`" ]; then
   alias git=hub
 fi
 alias g=git
@@ -238,7 +238,7 @@ else
   alias v='vi'
 fi
 alias x=exit
-#alias watch='watch -n 1 -dc'
+alias watch='watch -n 1 -dc'
 
 alias -s zip=zipinfo
 alias -s tgz=gzcat
@@ -256,7 +256,6 @@ alias -s xml=lv
 
 alias -g psg="$PS_CMD | grep"
 alias -g lsg='ls | grep'
-
 
 # dabbrev
 HARDCOPYFILE=$HOME/.screen-hardcopy
@@ -343,26 +342,16 @@ pbcopy-buffer() {
 zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
 
+
 # plenv
-export PLENV_HOME=$HOME/.plenv
-if [ -s $PLENV_HOME ]; then
-    path=( $PLENV_ROOT/bin $path )
-    eval "$(plenv init - zsh)"
-fi
+[ -x "`which plenv 2> /dev/null`" ] && eval "$(plenv init -)"
 
 # pyenv
-export PYENV_ROOT=$HOME/.pyenv
-if [ -s $PYENV_ROOT ]; then
-    path=( $PYENV_ROOT/bin $path )
-    eval "$(rbenv init - zsh)"
-fi
+[ -x "`which pyenv 2> /dev/null`" ] && eval "$(pyenv init -)"
 
 # rbenv
-export RBENV_ROOT=$HOME/.rbenv
-if [ -s $RBENV_ROOT ]; then
-    path=( $RBENV_ROOT/bin $path )
-    eval "$(rbenv init - zsh)"
-fi
+[ -x "`which rbenv 2> /dev/null`" ] && eval "$(rbenv init -)"
+
 
 # load local configuration
 [ -r $HOME/.zshrc.local ] && source $HOME/.zshrc.local
@@ -372,17 +361,4 @@ fi
 typeset -U path cdpath fpath manpath
 
 
-# zcompile
-if [ ! -e $HOME/.zshrc.zwc ]; then
-  zcompile $HOME/.zshrc
-fi
-if [ ! -f $HOME/.zshrc.local.zwc ]; then
-  zcompile $HOME/.zshrc.local
-fi
-if [ $HOME/.zshrc -nt $HOME/.zshrc.zwc ]; then
-  zcompile $HOME/.zshrc
-fi
-if [ $HOME/.zshrc.local -nt $HOME/.zshrc.local.zwc ]; then
-  zcompile $HOME/.zshrc.local
-fi
-
+ruby -e 'puts "%.3f" % Time.now'

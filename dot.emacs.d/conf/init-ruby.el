@@ -8,6 +8,9 @@
 	  '(lambda ()
 	     (set-face-background 'flymake-errline "red4")))
 
+; Automatic indentation
+(add-hook 'ruby-mode-hook (lambda () (local-set-key "\r" 'newline-and-indent)))
+
 ;; ruby-electric.el --- electric editing commands for ruby files
 (require 'ruby-electric)
 (add-hook 'ruby-mode-hook '(lambda () (ruby-electric-mode t)))
