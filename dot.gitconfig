@@ -30,7 +30,7 @@
 	ui = auto
 	status = auto
 [core]
-	excludesfile = $HOME/.gitignore_global
+	excludesfile = $HOME/.gitignore.local
 	pager = lv -c
 [push]
 	default = matching
