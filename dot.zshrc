@@ -92,7 +92,11 @@ if [ -x "`which source-highlight 2> /dev/null`" ]; then
 fi
 export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?'
 export HOST=`hostname`
+if [ -x "`which lv 2> /dev/null`" ]; then
+export PAGER="lv -c"
+else
 export PAGER=less
+fi
 export LSCOLORS=dxfxcxdxbxegedabagacad
 if [ -x "`which emacsclient 2> /dev/null`" ]; then
   export EDITOR=emacsclient
@@ -212,6 +216,7 @@ alias g=git
 alias grep='grep --color'
 alias h=history
 alias less='less --tabs=4'
+alias lv='lv -c'
 alias m='mosh'
 alias mkdir='nocorrect mkdir'
 alias mv='nocorrect mv'
@@ -359,3 +364,12 @@ bindkey '^x^p' pbcopy-buffer
 # uniquify my $PATH
 typeset -U path cdpath fpath manpath
 
+
+# zcompile
+if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
+   zcompile ~/.zshrc
+fi
+
+if [ ! -f ~/.zshrc.local.zwc -o ~/.zshrc.local -nt ~/.zshrc.local.zwc ]; then
+   zcompile ~/.zshrc.local
+fi
