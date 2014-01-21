@@ -9,8 +9,8 @@ DOTS=\
 	.emacs \
 	.emacs.d \
 	.my.cnf \
-	.gitconfig \
-	.gitignore_global \
+	.gitconfig.local \
+	.gitignore.local \
 	.inputrc \
 	.screenrc \
 	.zaw.sources \
