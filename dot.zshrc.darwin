@@ -8,6 +8,12 @@ if [ -f "/opt/boxen/env.sh" ]; then
   source /opt/boxen/env.sh
 fi
 
+if [ -S "$BOXEN_HOME/data/mysql/socket" ]; then
+  if [ ! -h "/tmp/mysql.sock" ]; then
+    ln -s $BOXEN_HOME/data/mysql/socket /tmp/mysql.sock
+  fi
+fi
+
 # coreutils
 if [ -d "$(brew --prefix coreutils)/libexec/gnubin" ]; then
   path=( $(brew --prefix coreutils)/libexec/gnubin $path )
