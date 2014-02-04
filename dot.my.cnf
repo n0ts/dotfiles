@@ -1,6 +1,3 @@
-[client]
-port = 3306
-
 [mysql]
 prompt="\u@\h[\d] mysql> "
 show-warnings
