@@ -63,7 +63,7 @@ fpath=($HOME/.zfunctions $fpath)
 ospath=( /usr/{,s}bin /{,s}bin )
 localpath=( /opt/*/{,s}bin /usr/local/{,s}bin /usr/local/*/{,s}bin /usr/X11R6/{,s}bin )
 homepath=( $HOME/.{,s}bin )
-path=( $homepath $localpath $ospath )
+path=( $homepath $localpath $ospath $path )
 
 # load platform configuration
 export OSTYPE=`uname -s`
