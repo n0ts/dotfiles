@@ -220,7 +220,7 @@ alias lv='lv -c'
 alias m='mosh'
 alias mkdir='nocorrect mkdir'
 alias mv='nocorrect mv'
-alias mysql='mysql --auto-rehash'
+alias mysql='mysql --auto-rehash --pager="less -S -n -i -F -X"'
 alias p=pushd pp=popd
 alias ps='ps auxw'
 alias q=exit
