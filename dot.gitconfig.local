@@ -33,8 +33,8 @@
 	excludesfile = $HOME/.gitignore.local
 	pager = lv -c
 [pager]
-	log = diff-highlight | less
-	show = diff-highlight | less
-	diff = diff-highlight | less
+	log = diff-highlight | less -S -i -F -X
+	show = diff-highlight | less -S -i -F -X
+	diff = diff-highlight | less -S -i -F -X
 [push]
 	default = matching
