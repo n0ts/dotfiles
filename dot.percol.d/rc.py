@@ -1,3 +1,9 @@
+# styles
+percol.view.CANDIDATES_LINE_BASIC    = ("on_default", "default")
+percol.view.CANDIDATES_LINE_SELECTED = ("underline", "on_green", "white")
+percol.view.CANDIDATES_LINE_MARKED   = ("bold", "on_cyan", "black")
+percol.view.CANDIDATES_LINE_QUERY    = ("yellow", "bold")
+
 # prompt
 percol.view.PROMPT = ur"<bold><green>Input:</green></bold> %q"
 percol.view.prompt_replacees["F"] = lambda self, **args: self.model.finder.get_name()
