@@ -12,8 +12,9 @@ DOTS=\
 	.gitconfig.local \
 	.gitignore.local \
 	.inputrc \
+	.percol.d \
 	.screenrc \
-	.zaw.sources \
+	.zsh.sources \
 	.zfunctions \
 	.zlogin \
 	.zshrc \

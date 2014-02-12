@@ -28,6 +28,7 @@ setopt  HIST_IGNORE_DUPS      #
 setopt  HIST_IGNORE_SPACE     # 
 setopt  HIST_NO_STORE         # 
 setopt  HIST_REDUCE_BLANKS    # 
+setopt  HIST_VERIFY           # 
 setopt  IGNORE_EOF            # 
 setopt  INC_APPEND_HISTORY    # 
 setopt  INTERACTIVE_COMMENTS  # 
@@ -265,7 +266,7 @@ alias -g lsg='ls | grep'
 HARDCOPYFILE=$HOME/.screen-hardcopy
 touch $HARDCOPYFILE
 
-dabbrev-complete () {
+dabbrev-complete() {
   local reply lines=80 # 80 lines
   screen -X eval "hardcopy -h $HARDCOPYFILE"
   reply=($(sed '/^$/d' $HARDCOPYFILE | sed '$ d' | tail -$lines))
@@ -292,21 +293,6 @@ if [ -f $HOME/.auto-fo.zsh/auto-fu.zsh ]; then
   fi
 fi
 
-
-# zaw.zsh
-if [ -f $HOME/.zaw/zaw.zsh ]; then
-  source $HOME/.zaw/zaw.zsh
-  # load local zaw sources
-  local local_src_dir="$HOME/.zaw.sources"
-  if [[ -d "${local_src_dir}" ]]; then
-    for f ("${local_src_dir}"/*) source "${f}"
-  fi
-
-  bindkey '^R' zaw-history
-  bindkey '^U' zaw-cdd
-fi
-
-
 # edit-file
 edit-file() {
   zle -I
@@ -319,7 +305,6 @@ edit-file() {
 }
 zle -N edit-file
 bindkey "^x^f" edit-file
-
 
 # git
 function git() {
@@ -336,7 +321,6 @@ function git() {
   fi
 }
 
-
 # past command-line
 pbcopy-buffer() { 
   print -rn $BUFFER | pbcopy
@@ -345,7 +329,6 @@ pbcopy-buffer() {
 
 zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
-
 
 # plenv
 [ -x "`which plenv 2> /dev/null`" ] && eval "$(plenv init -)"
@@ -356,6 +339,10 @@ bindkey '^x^p' pbcopy-buffer
 # rbenv
 [ -x "`which rbenv 2> /dev/null`" ] && eval "$(rbenv init -)"
 
+# source
+if [ -d $HOME/.zsh.sources ]; then
+  for f (~/.zsh.sources/*) source "${f}"
+fi
 
 # load local configuration
 [ -r $HOME/.zshrc.local ] && source $HOME/.zshrc.local
