@@ -214,6 +214,7 @@ if [ -x "`which hub 2> /dev/null`" ]; then
   alias git=hub
 fi
 alias g=git
+alias gosh='rlwrap gosh'
 alias grep='grep --color'
 alias h=history
 alias less='less --tabs=4'
