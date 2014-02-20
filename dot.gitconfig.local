@@ -30,6 +30,7 @@
 	ui = auto
 	status = auto
 [core]
+	attributesfile = $HOME/.gitattributes.local
 	excludesfile = $HOME/.gitignore.local
 	pager = lv -c
 [pager]

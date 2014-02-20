@@ -9,6 +9,7 @@ DOTS=\
 	.emacs \
 	.emacs.d \
 	.my.cnf \
+	.gitattributes.local \
 	.gitconfig.local \
 	.gitignore.local \
 	.inputrc \
