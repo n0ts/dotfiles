@@ -53,8 +53,8 @@ setopt  ZLE                   #
 unsetopt BG_NICE              # 
 
 # see manual zshparam(1).
-HISTSIZE=20000
-SAVEHIST=200000
+HISTSIZE=100000
+SAVEHIST=100000
 HISTFILE=$HOME/.zhistory
 function history-all { history -E 1 }
 
@@ -237,6 +237,7 @@ alias sr='screen -D -RR'
 alias sd='sudo -H -s'
 alias sudo='sudo -H'
 alias sudu=sudo
+alias t=tmux
 alias tf='tail -f'
 if [ -x "`which vim 2> /dev/null`" ]; then
   alias v='vim'
