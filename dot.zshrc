@@ -332,6 +332,9 @@ pbcopy-buffer() {
 zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
 
+# dircolors
+[ -f ~/.dircolors-solarized/dircolors.256dark ]; eval `dircolors ~/.dircolors-solarized/dircolors.256dark`
+
 # plenv
 [ -x "`which plenv 2> /dev/null`" ] && eval "$(plenv init -)"
 
