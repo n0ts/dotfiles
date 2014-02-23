@@ -21,7 +21,8 @@ DOTS=\
 	.zshrc \
 	.zshrc.linux \
 	.zshrc.freebsd \
-	.zshrc.darwin
+	.zshrc.darwin \
+	.dircolors-solarized
 
 DOTS_LOCAL=\
 	dot.emacs.local \
