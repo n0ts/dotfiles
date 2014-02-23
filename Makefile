@@ -27,9 +27,6 @@ DOTS_LOCAL=\
 	dot.emacs.local \
 	dot.zshrc.local
 
-DOTS_ZSH=\
-	.zshrc.test
-
 
 all: setup
 setup: dots-setup
