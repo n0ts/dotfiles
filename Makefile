@@ -5,6 +5,7 @@ DESTDIR=${HOME}
 DOTS=\
 	.bin \
 	.ackrc \
+	.dircolors-solarized \
 	.editrc \
 	.emacs \
 	.emacs.d \
@@ -15,6 +16,7 @@ DOTS=\
 	.inputrc \
 	.percol.d \
 	.screenrc \
+	.source-highlight \
 	.zsh.sources \
 	.zfunctions \
 	.zlogin \
@@ -22,7 +24,6 @@ DOTS=\
 	.zshrc.linux \
 	.zshrc.freebsd \
 	.zshrc.darwin \
-	.dircolors-solarized
 
 DOTS_LOCAL=\
 	dot.emacs.local \
