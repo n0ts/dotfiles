@@ -220,6 +220,7 @@ alias h=history
 alias less='less --tabs=4'
 alias lv='lv -c'
 alias m='mosh'
+alias man='LANG=C man'
 alias mkdir='nocorrect mkdir'
 alias mv='nocorrect mv'
 alias mysql='mysql --auto-rehash --pager="less -S -n -i -F -X"'
