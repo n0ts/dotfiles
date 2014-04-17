@@ -334,7 +334,10 @@ zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
 
 # dircolors
-[ -f ~/.dircolors-solarized/dircolors.256dark ]; eval `dircolors ~/.dircolors-solarized/dircolors.256dark`
+[ -f ~/.dircolors-solarized/dircolors.256dark ] && eval `dircolors ~/.dircolors-solarized/dircolors.256dark 2&> /dev/null`
+
+# phpenv
+[ -x "`which phpenv 2> /dev/null`" ] && eval "$(phpenv init -)"
 
 # plenv
 [ -x "`which plenv 2> /dev/null`" ] && eval "$(plenv init -)"
@@ -343,7 +346,9 @@ bindkey '^x^p' pbcopy-buffer
 [ -x "`which pyenv 2> /dev/null`" ] && eval "$(pyenv init -)"
 
 # rbenv
-[ -x "`which rbenv 2> /dev/null`" ] && eval "$(rbenv init -)"
+if [ -z "$RBENV_ROOT" ]; then
+  [ -x "`which rbenv 2> /dev/null`" ] && eval "$(rbenv init -)"
+fi
 
 # source
 if [ -d $HOME/.zsh.sources ]; then
