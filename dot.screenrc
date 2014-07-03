@@ -172,10 +172,9 @@ escape ^z^z
 shelltitle '% |*'
 
 # default new window
-screen 0
 screen 1
 screen 2
 screen 3
 screen 4
 screen 5
-select 0
+select 1
