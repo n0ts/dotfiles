@@ -4,9 +4,9 @@ if exists percol; then
         exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
         BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
         CURSOR=$#BUFFER         # move cursor
-        zle -R -c               # refresh
+        zle clear-screen        # clear the screen
     }
 
     zle -N percol_select_history
-    bindkey '^R' percol_select_history
+    bindkey '^r' percol_select_history
 fi
