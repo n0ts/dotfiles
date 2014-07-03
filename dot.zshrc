@@ -60,11 +60,12 @@ function history-all { history -E 1 }
 
 # path
 [ -d $HOME/.zsh-completions ] && fpath=($HOME/.zsh-completions/src $fpath)
+
 fpath=($HOME/.zfunctions $fpath)
 ospath=( /usr/{,s}bin /{,s}bin )
 localpath=( /opt/*/{,s}bin /usr/local/{,s}bin /usr/local/*/{,s}bin /usr/X11R6/{,s}bin )
 homepath=( $HOME/.{,s}bin )
-path=( $homepath $localpath $ospath $path )
+path=( $homepath $localpath $ospath )
 
 # load platform configuration
 export OSTYPE=`uname -s`
@@ -239,6 +240,7 @@ alias sd='sudo -H -s'
 alias sudo='sudo -H'
 alias sudu=sudo
 alias t=tmux
+alias tl='tmux ls'
 alias tf='tail -f'
 if [ -x "`which vim 2> /dev/null`" ]; then
   alias v='vim'
@@ -336,19 +338,14 @@ bindkey '^x^p' pbcopy-buffer
 # dircolors
 [ -f ~/.dircolors-solarized/dircolors.256dark ] && eval `dircolors ~/.dircolors-solarized/dircolors.256dark 2&> /dev/null`
 
-# phpenv
-[ -x "`which phpenv 2> /dev/null`" ] && eval "$(phpenv init -)"
+# rbenv
+[ -z "$RBENV_ROOT" ] && [ -x "`which rbenv 2> /dev/null`" ] && eval "$(rbenv init -)"
+
+# phpenv: after rbenv
+[ -z "$PHPENV_ROOT" ] && [ -x "`which phpenv 2> /dev/null`" ] && eval "$(phpenv init -)"
 
 # plenv
-[ -x "`which plenv 2> /dev/null`" ] && eval "$(plenv init -)"
-
-# pyenv
-[ -x "`which pyenv 2> /dev/null`" ] && eval "$(pyenv init -)"
-
-# rbenv
-if [ -z "$RBENV_ROOT" ]; then
-  [ -x "`which rbenv 2> /dev/null`" ] && eval "$(rbenv init -)"
-fi
+[ -z "$PLENV_ROOT" ] && [ -x "`which plenv 2> /dev/null`" ] && eval "$(plenv init -)"
 
 # source
 if [ -d $HOME/.zsh.sources ]; then
@@ -358,16 +355,10 @@ fi
 # load local configuration
 [ -r $HOME/.zshrc.local ] && source $HOME/.zshrc.local
 
-
 # uniquify my $PATH
 typeset -U path cdpath fpath manpath
 
-
 # zcompile
-if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
-   zcompile ~/.zshrc
-fi
+[ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ] && zcompile ~/.zshrc
+[ ! -f ~/.zshrc.local.zwc -o ~/.zshrc.local -nt ~/.zshrc.local.zwc ] && zcompile ~/.zshrc.local
 
-if [ ! -f ~/.zshrc.local.zwc -o ~/.zshrc.local -nt ~/.zshrc.local.zwc ]; then
-   zcompile ~/.zshrc.local
-fi
