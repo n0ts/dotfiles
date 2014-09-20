@@ -7,50 +7,50 @@ umask 022
 limit coredumpsize 0
 
 # see manual zshoptions(1)
-setopt  ALWAYS_TO_END         # 
-setopt  AUTO_CD               # 
-setopt  AUTO_PUSHD            # 
-setopt  AUTO_RESUME           # 
-setopt  BANG_HIST             # 
-#setopt  CDABLE_VARS           # 
-setopt  COMPLETE_IN_WORD      # 
-#setopt CORRECT                # 
-setopt  CORRECT_ALL           # 
-setopt  CSH_JUNKIE_HISTORY    # 
-setopt  EQUALS                # 
-setopt  EXTENDED_GLOB         # 
-setopt  EXTENDED_HISTORY      # 
-setopt  FUNCTION_ARGZERO      # 
-#setopt  GLOB_COMPLETE         # 
-setopt  GLOB_DOTS             # 
-setopt  HIST_IGNORE_ALL_DUPS  # ignore duplication command history list
-setopt  HIST_IGNORE_DUPS      # 
-setopt  HIST_IGNORE_SPACE     # 
-setopt  HIST_NO_STORE         # 
-setopt  HIST_REDUCE_BLANKS    # 
-setopt  HIST_VERIFY           # 
-setopt  IGNORE_EOF            # 
-setopt  INC_APPEND_HISTORY    # 
-setopt  INTERACTIVE_COMMENTS  # 
-setopt  LIST_PACKED           # 
-setopt  LONG_LIST_JOBS        # 
-setopt  MAGIC_EQUAL_SUBST     # 
-setopt  NO_BEEP               # 
-setopt  NO_CLOBBER            # 
-setopt  NO_FLOW_CONTROL       # 
-setopt  NO_HUP                # 
-setopt  NO_LIST_BEEP          # 
-setopt  NONOMATCH             # 
-setopt  NOTIFY                # 
-setopt  NUMERIC_GLOB_SORT     # 
-setopt  PATH_DIRS             # 
-setopt  PRINT_EIGHT_BIT       # 
-setopt  PROMPT_SUBST          # 
-setopt  PUSHD_IGNORE_DUPS     # 
-setopt  SHARE_HISTORY         # share history among zshs
-setopt  SUN_KEYBOARD_HACK     # 
-setopt  ZLE                   # 
-unsetopt BG_NICE              # 
+setopt ALWAYS_TO_END        # If unset, key functions that list completions try to return to the last prompt if given a numeric argument. If set these functions try to return to the last prompt if given no numeric argument.
+setopt AUTO_CD              # If a command is issued that can’t be executed as a normal command, and the command is the name of a directory, perform the cd command to that directory.
+setopt AUTO_PUSHD           # Make cd push the old directory onto the directory stack.
+setopt AUTO_RESUME          # Treat single word simple commands without redirection as candidates for resumption of an existing job.
+setopt BANG_HIST            # Perform textual history expansion, csh-style, treating the character ‘!’ specially.
+setopt CDABLE_VARS          # If the argument to a cd command (or an implied cd with the AUTO_CD option set) is not a directory, and does not begin with a slash, try to expand the expression as if it were preceded by a ‘~’.
+setopt COMPLETE_IN_WORD     # If unset, the cursor is set to the end of the word if completion is started. Otherwise it stays there and completion is done from both ends.
+setopt CORRECT              # Try to correct the spelling of commands. Note that, when the HASH_LIST_ALL option is not set or when some directories in the path are not readable, this may falsely report spelling errors the first time some commands are used.
+setopt CORRECT_ALL          # Try to correct the spelling of all arguments in a line.
+setopt CSH_JUNKIE_HISTORY   # A history reference without an event specifier will always refer to the previous command. Without this option, such a history reference refers to the same event as the previous history reference, defaulting to the previous command.
+setopt EQUALS               # Perform = filename expansion
+setopt EXTENDED_GLOB        # Treat the ‘#’, ‘~’ and ‘^’ characters as part of patterns for filename generation, etc.
+setopt EXTENDED_HISTORY     # Save each command’s beginning timestamp (in seconds since the epoch) and the duration (in seconds) to the history file.
+setopt FUNCTION_ARGZERO     # When executing a shell function or sourcing a script, set $0 temporarily to the name of the function/script. Note that toggling FUNCTION_ARGZERO from on to off (or off to on) does not change the current value of $0. Only the state upon entry to the function or script has an effect. Compare POSIX_ARGZERO.
+setopt GLOB_COMPLETE        # When the current word has a glob pattern, do not insert all the words resulting from the expansion but generate matches as for completion and cycle through them like MENU_COMPLETE.
+setopt GLOB_DOTS            # Do not require a leading ‘.’ in a filename to be matched explicitly.
+setopt HIST_IGNORE_ALL_DUPS # If a new command line being added to the history list duplicates an older one, the older command is removed from the list (even if it is not the previous event).
+setopt HIST_IGNORE_DUPS     # Do not enter command lines into the history list if they are duplicates of the previous event.
+setopt HIST_IGNORE_SPACE    # Remove command lines from the history list when the first character on the line is a space, or when one of the expanded aliases contains a leading space. Only normal aliases (not global or suffix aliases) have this behaviour. Note that the command lingers in the internal history until the next command is entered before it vanishes, allowing you to briefly reuse or edit the line. If you want to make it vanish right away without entering another command, type a space and press return.
+setopt HIST_NO_STORE        # Remove the history (fc -l) command from the history list when invoked. Note that the command lingers in the internal history until the next command is entered before it vanishes, allowing you to briefly reuse or edit the line.
+setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks from each command line being added to the history list.
+setopt HIST_VERIFY          # Whenever the user enters a line with history expansion, don’t execute the line directly; instead, perform history expansion and reload the line into the editing buffer.
+setopt IGNORE_EOF           # Do not exit on end-of-file. Require the use of exit or logout instead. However, ten consecutive EOFs will cause the shell to exit anyway, to avoid the shell hanging if its tty goes away.
+setopt INC_APPEND_HISTORY   # This options works like APPEND_HISTORY except that new history lines are added to the $HISTFILE incrementally (as soon as they are entered), rather than waiting until the shell exits. The file will still be periodically re-written to trim it when the number of lines grows 20% beyond the value specified by $SAVEHIST (see also the HIST_SAVE_BY_COPY option).
+setopt INTERACTIVE_COMMENTS # Allow comments even in interactive shells.
+setopt LIST_PACKED          # Try to make the completion list smaller (occupying less lines) by printing the matches in columns with different widths.
+setopt LONG_LIST_JOBS       # List jobs in the long format by default.
+setopt MAGIC_EQUAL_SUBST    # All unquoted arguments of the form ‘anything=expression’ appearing after the command name have filename expansion (that is, where expression has a leading ‘~’ or ‘=’) performed on expression as if it were a parameter assignment. The argument is not otherwise treated specially; it is passed to the command as a single argument, and not used as an actual parameter assignment. For example, in echo foo=~/bar:~/rod, both occurrences of ~ would be replaced. Note that this happens anyway with typeset and similar statements.
+setopt NO_BEEP              # 
+setopt NO_CLOBBER           # 
+setopt NO_FLOW_CONTROL      # 
+setopt NO_HUP               # 
+setopt NO_LIST_BEEP         # 
+setopt NONOMATCH            # 
+setopt NOTIFY               # Report the status of background jobs immediately, rather than waiting until just before printing a prompt.
+setopt NUMERIC_GLOB_SORT    # If numeric filenames are matched by a filename generation pattern, sort the filenames numerically rather than lexicographically.
+setopt PATH_DIRS            # Perform a path search even on command names with slashes in them. Thus if ‘/usr/local/bin’ is in the user’s path, and he or she types ‘X11/xinit’, the command ‘/usr/local/bin/X11/xinit’ will be executed (assuming it exists). Commands explicitly beginning with ‘/’, ‘./’ or ‘../’ are not subject to the path search. This also applies to the ‘.’ and source builtins.
+setopt PRINT_EIGHT_BIT      # Print eight bit characters literally in completion lists, etc. This option is not necessary if your system correctly returns the printability of eight bit characters (see man page ctype(3)).
+setopt PROMPT_SUBST         # If set, parameter expansion, command substitution and arithmetic expansion are performed in prompts. Substitutions within prompts do not affect the command status.
+setopt PUSHD_IGNORE_DUPS    # Don’t push multiple copies of the same directory onto the directory stack.
+setopt SHARE_HISTORY        # This option both imports new commands from the history file, and also causes your typed commands to be appended to the history file (the latter is like specifying INC_APPEND_HISTORY, which should be turned off if this option is in effect). The history lines are also output with timestamps ala EXTENDED_HISTORY (which makes it easier to find the spot where we left off reading the file after it gets re-written).
+setopt SUN_KEYBOARD_HACK    # If a line ends with a backquote, and there are an odd number of backquotes on the line, ignore the trailing backquote. This is useful on some keyboards where the return key is too small, and the backquote key lies annoyingly close to it. As an alternative the variable KEYBOARD_HACK lets you choose the character to be removed.
+setopt ZLE                  # Use the zsh line editor. Set by default in interactive shells connected to a terminal.
+unsetopt BG_NICE            # Run all background jobs at a lower priority. This option is set by default.
 
 # see manual zshparam(1).
 HISTSIZE=100000
@@ -362,3 +362,4 @@ typeset -U path cdpath fpath manpath
 [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ] && zcompile ~/.zshrc
 [ ! -f ~/.zshrc.local.zwc -o ~/.zshrc.local -nt ~/.zshrc.local.zwc ] && zcompile ~/.zshrc.local
 
+[ -n "$STY" ] && source ~/.zlogin
