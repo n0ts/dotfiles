@@ -1,9 +1,17 @@
 set completion-ignore-case on
+set show-all-if-ambiguous on
 
 $if mysql
-  "\C-xd": "show databases;"
-  "\C-xt": "show tables;"
-  "\C-xp": "flush privileges;"
-  "\C-xu": "select user,host,password from mysql.user order by user,host;"
-  "\C-xb": "select user,host,db       from mysql.db   order by user,host;"
+"\C-xp": "flush privileges;"
+"\C-xn": "select count(*) from ;"
+"\C-xu": "select user,host,password from mysql.user order by user,host;"
+"\C-xb": "select user,host,db       from mysql.db   order by user,host;"
+"\C-xc": "show create table TN\\G"
+"\C-xd": "show databases;"
+"\C-xp": "show full processlist;"
+"\C-xm": "show master status\\G"
+"\C-xs": "show slave status\\G"
+"\C-xt": "show tables;"
+"\C-xv": "show variables like '%%';"
+"\C-xa": "show table status like 'TN'\\G"
 $endif
