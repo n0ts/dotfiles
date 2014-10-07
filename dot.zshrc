@@ -82,7 +82,8 @@ case $OSTYPE in
 esac
 
 # environment variable configuration
-export LANG=en_US.UTF-8
+export LANG=C
+export LC_MESSAGE=c
 export LESSCHARSET=UTF-8
 export LESS='-R'
 if [ -x "`which source-highlight 2> /dev/null`" ]; then
@@ -202,8 +203,12 @@ alias ll='ls -Flh'
 alias l=ls
 alias sl=l
 
-alias ack='nocorrect ack'
 alias be='bundle exec'
+alias bi='bundle install --path vendor/bundle'
+alias bo='bundle outdated'
+alias bs='bundle show'
+alias bu='bundle update'
+alias bundle='nocorrect bundle'
 alias c='clear'
 alias cp='nocorrect cp'
 alias df='df -h'
@@ -232,7 +237,7 @@ alias quit=exit
 alias r=rails
 alias rm='rm -i'
 alias ra=rake
-alias rs=rspec
+alias rs='bundle exec rspec spec'
 alias s=screen
 alias sd='sudo -H -s'
 alias sr='screen -D -RR'
@@ -242,6 +247,14 @@ alias sudu=sudo
 alias t=tmux
 alias tl='tmux ls'
 alias tf='tail -f'
+if [ -x "`which vagrant 2> /dev/null`" ]; then
+  alias vu='vagrant up'
+  alias vd='vagrant destroy'
+  alias vdf='vagrant destroy -f'
+  alias vs='vagrant status'
+  alias vssh='vagrant ssh'
+  alias vsshc='vagrant ssh-config'
+fi
 if [ -x "`which vim 2> /dev/null`" ]; then
   alias v='vim'
 else
@@ -339,13 +352,16 @@ bindkey '^x^p' pbcopy-buffer
 [ -f ~/.dircolors-solarized/dircolors.256dark ] && eval `dircolors ~/.dircolors-solarized/dircolors.256dark 2&> /dev/null`
 
 # rbenv
-[ -z "$RBENV_ROOT" ] && [ -x "`which rbenv 2> /dev/null`" ] && eval "$(rbenv init -)"
+[ -z "$RBENV_ROOT" ] && [ -x "`which rbenv 2> /dev/null`" ] && eval "$(rbenv init - --no-rehash)"
 
 # phpenv: after rbenv
-[ -z "$PHPENV_ROOT" ] && [ -x "`which phpenv 2> /dev/null`" ] && eval "$(phpenv init -)"
+[ -z "$PHPENV_ROOT" ] && [ -x "`which phpenv 2> /dev/null`" ] && eval "$(phpenv init - --no-rehash)"
 
 # plenv
 [ -z "$PLENV_ROOT" ] && [ -x "`which plenv 2> /dev/null`" ] && eval "$(plenv init -)"
+
+# pyenv
+[ -z "$PYENV_ROOT" ] && [ -x "`which pyenv 2> /dev/null`" ] && eval "$(pyenv init - --no-rehash)"
 
 # source
 if [ -d $HOME/.zsh.sources ]; then
@@ -362,4 +378,5 @@ typeset -U path cdpath fpath manpath
 [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ] && zcompile ~/.zshrc
 [ ! -f ~/.zshrc.local.zwc -o ~/.zshrc.local -nt ~/.zshrc.local.zwc ] && zcompile ~/.zshrc.local
 
+# for screen
 [ -n "$STY" ] && source ~/.zlogin
