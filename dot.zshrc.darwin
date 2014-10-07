@@ -31,13 +31,6 @@ if [ -d "$(brew --prefix coreutils)/libexec/gnubin" ]; then
   path=( $(brew --prefix coreutils)/libexec/gnubin $path )
 fi
 
-# vmware fusion
-VMWARE_FUSION_CASK=`brew cask info vmware-fusion | head -3 | tail -1 | cut -d ' ' -f 1`
-if [ -d "$VMWARE_FUSION_CASK" ]; then
-  export VAGRANT_VMWARE_FUSION_APP="$HOME/Applications/VMware Fusion.app"
-  path=( "$VMWARE_FUSION_CASK/VMware Fusion.app/Contents/Library" $path )
-fi
-
 # Z
 if [ -f "$(brew --prefix z)/etc/profile.d/z.sh" ]; then
    Z_CMD=j
@@ -49,15 +42,14 @@ fi
 
 # zsh-completions
 if [ -d "$(brew --prefix zsh-completions)/share/zsh-completions" ]; then
-   fpath=( $(brew --prefix  zsh-completions)/share/zsh-completions $fpath )
+   fpath=( $(brew --prefix zsh-completions)/share/zsh-completions $fpath )
 fi
-
 
 # java
 [ -d /Library/Java/Home ] && export JAVA_HOME=/Library/Java/Home
-
 
 # vagrant
 if [ -f $HOME/.vagrant.d/license-vagrant-vmware-fusion.lic ]; then
    export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
 fi
+
