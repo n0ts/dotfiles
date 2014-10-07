@@ -16,6 +16,7 @@ DOTS=\
 	.inputrc \
 	.percol.d \
 	.screenrc \
+	.tmux.conf \
 	.source-highlight \
 	.zsh.sources \
 	.zfunctions \
