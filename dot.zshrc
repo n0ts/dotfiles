@@ -82,8 +82,7 @@ case $OSTYPE in
 esac
 
 # environment variable configuration
-export LANG=C
-export LC_MESSAGE=c
+export LANG=en_US.UTF-8
 export LESSCHARSET=UTF-8
 export LESS='-R'
 if [ -x "`which source-highlight 2> /dev/null`" ]; then
