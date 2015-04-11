@@ -3,6 +3,7 @@
 
 if [ -z "$CDD_FILE" ]; then
   CDD_FILE=~/.cdd
+  touch $CDD_FILE
 fi
 export CDD_FILE
 
