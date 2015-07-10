@@ -14,10 +14,11 @@ if [ -S "$BOXEN_HOME/data/mysql/socket" ]; then
 fi
 
 # pyenv
-if [ -d "$PYENV_ROOT/versions/2.7.6" ]; then
+if [ -d "$PYENV_ROOT" ]; then
   # awscli
-  if [ -f "$PYENV_ROOT/versions/2.7.6/bin/aws_zsh_completer.sh" ]; then
-    source $PYENV_ROOT/versions/2.7.6/bin/aws_zsh_completer.sh
+  PYTHON_VERSION=`pyenv version | cut -d ' ' -f 1`
+  if [ -f "$PYENV_ROOT/versions/$PYTHON_VERSION/bin/aws_zsh_completer.sh" ]; then
+    source $PYENV_ROOT/versions/$PYTHON_VERSION/bin/aws_zsh_completer.sh
   fi
 fi
 
