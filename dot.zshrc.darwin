@@ -3,6 +3,8 @@
 #
 path=( /usr/libexec $path )
 
+alias brew-cask-update='for c in `brew cask list`; do ! brew cask info $c | grep -qF "Not installed" || brew cask install $c; done'
+
 # boxen
 [ -r "/opt/boxen/env.sh" ] && source /opt/boxen/env.sh
 
@@ -13,37 +15,33 @@ if [ -S "$BOXEN_HOME/data/mysql/socket" ]; then
   fi
 fi
 
-# pyenv
-if [ -d "$PYENV_ROOT" ]; then
-  # awscli
-  PYTHON_VERSION=`pyenv version | cut -d ' ' -f 1`
-  if [ -f "$PYENV_ROOT/versions/$PYTHON_VERSION/bin/aws_zsh_completer.sh" ]; then
-    source $PYENV_ROOT/versions/$PYTHON_VERSION/bin/aws_zsh_completer.sh
-  fi
-fi
-
 
 #
 # Homebrew
 #
 
+function brew_prefix { brew --prefix "$1" }
+
 # gnu coreutils
-if [ -d "$(brew --prefix coreutils)/libexec/gnubin" ]; then
-  path=( $(brew --prefix coreutils)/libexec/gnubin $path )
+COREUTILS=`brew_prefix coreutils`
+if [ -d "$COREUTILS/libexec/gnubin" ]; then
+  path=( $COREUTILS/libexec/gnubin $path )
 fi
 
 # Z
-if [ -f "$(brew --prefix z)/etc/profile.d/z.sh" ]; then
-   Z_CMD=j
-   source $(brew --prefix z)/etc/profile.d/z.sh
-   precmd() {
-     _z --add "$(pwd -P)"
-   }
+Z=`brew_prefix z`
+if [ -f "$Z/etc/profile.d/z.sh" ]; then
+  Z_CMD=j
+  source $Z/etc/profile.d/z.sh
+  precmd() {
+    _z --add "$(pwd -P)"
+  }
 fi
 
 # zsh-completions
-if [ -d "$(brew --prefix zsh-completions)/share/zsh-completions" ]; then
-   fpath=( $(brew --prefix zsh-completions)/share/zsh-completions $fpath )
+ZSH_COMPLETIONS=`brew_prefix zsh-completions`
+if [ -d "$ZSH_COMPLETIONS/share/zsh-completions" ]; then
+  fpath=( $ZSH_COMPLETIONS/share/zsh-completions $fpath )
 fi
 
 # java
@@ -63,7 +61,6 @@ CASKROOM_PATH=`echo $HOMEBREW_CASK_OPTS | cut -d '=' -f 2`
 # google-cloud-sdk
 GOOGLE_CLOUD_SDK=$CASKROOM_PATH/google-cloud-sdk/latest/google-cloud-sdk
 if [ -d $GOOGLE_CLOUD_SDK ]; then
-   # require compdef
   autoload -U compinit; compinit -u;
 
   source $GOOGLE_CLOUD_SDK/path.zsh.inc
