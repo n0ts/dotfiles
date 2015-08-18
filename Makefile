@@ -21,6 +21,7 @@ DOTS=\
 	.zsh.sources \
 	.zfunctions \
 	.zlogin \
+	.zshenv \
 	.zshrc \
 	.zshrc.linux \
 	.zshrc.freebsd \
@@ -56,6 +57,7 @@ dots-local-clean:
 
 dots-zwc:
 	zsh -c "zcompile ${DESTDIR}/.zshrc"
+	zsh -c "zcompile ${DESTDIR}/.zshenv"
 	zsh -c "zcompile ${DESTDIR}/.zshrc.linux"
 	zsh -c "zcompile ${DESTDIR}/.zshrc.freebsd"
 	zsh -c "zcompile ${DESTDIR}/.zshrc.darwin"
