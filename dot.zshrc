@@ -379,3 +379,9 @@ typeset -U path cdpath fpath manpath
 
 # for screen
 [ -n "$STY" ] && source ~/.zlogin
+
+# zprof
+if exists zprof; then
+  zprof | less
+fi
+
