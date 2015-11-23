@@ -8,6 +8,12 @@ alias brew-cask-update='for c in `brew cask list`; do ! brew cask info $c | grep
 # boxen
 [ -r "/opt/boxen/env.sh" ] && source /opt/boxen/env.sh
 
+# google-cloud-sdk
+if [ -d /opt/google-cloud-sdk ]; then
+  path=( /opt/google-cloud-sdk/bin $path )
+  source=/opt/google-cloud-sdk/completion.zsh.inc
+fi
+
 # mysql
 if [ -S "$BOXEN_HOME/data/mysql/socket" ]; then
   if [ ! -h "/tmp/mysql.sock" ]; then
