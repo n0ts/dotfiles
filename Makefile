@@ -10,6 +10,7 @@ DOTS=\
 	.emacs \
 	.emacs.d \
 	.my.cnf \
+	.git.templates \
 	.gitattributes.local \
 	.gitconfig.local \
 	.gitignore.local \
