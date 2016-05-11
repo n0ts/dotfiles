@@ -1,41 +1,20 @@
-[user]
-	name = n0ts
- 	email = me@n0ts.org
-[alias]
-	graph = log --graph --pretty='format:%h %Cgreen%an%Creset | %s %Cred%d%Creset'
-	ad = add
-	br = branch
-	ci = commit -a
-	kc = commit
-	co = checkout
-	cm = checkout master
-	conf = config
-	fo = fetch origin
-	ft = fetch
-	lg = log --graph --pretty=oneline --decorate --date=short --abbrev-commit --branches
-	pr = pull --rebase
-	rc = rebase --continue
-	ro = rebase origin
-	sh = show
-	so = remote show origin
-	st = status
-	wd = diff --word-diff
-[branch]
-	autosetupmerge = true
-[color]
-	branch = auto
-	diff = auto
-	grep = auto
-	interactive = auto
-	ui = auto
-	status = auto
 [core]
-	attributesfile = $HOME/.gitattributes.local
-	excludesfile = $HOME/.gitignore.local
-	pager = lv -c
+  attributesfile = $HOME/.gitattributes.local
+  excludesfile = $HOME/.gitignore.local
+  pager = lv -c
+
+[init]
+  templatedir = ~/.git.templates
+
 [pager]
-	log = diff-highlight | less -S -i -F -X
-	show = diff-highlight | less -S -i -F -X
-	diff = diff-highlight | less -S -i -F -X
-[push]
-	default = matching
+  log = diff-highlight | less -S -i -F -X
+  show = diff-highlight | less -S -i -F -X
+  diff = diff-highlight | less -S -i -F -X
+
+[secrets]
+  providers = git secrets --aws-provider
+  patterns = [A-Z0-9]{20}
+  patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
+  patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
+  allowed = AKIAIOSFODNN7EXAMPLE
+  allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
