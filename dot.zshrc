@@ -56,6 +56,7 @@ unsetopt BG_NICE            # Run all background jobs at a lower priority. This 
 HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE=$HOME/.zhistory
+zshaddhistory() { whence ${${(z)1}[1]} >| /dev/null || return 1 }
 function history-all { history -E 1 }
 
 # path
