@@ -1,0 +1,15 @@
+#!/bin/bash
+
+[[ -z "$1" ]] && echo "usage $(basename $0) <fork origin uri>" && exit 1
+
+github_id=n0ts
+git_my_url=$(git remote get-url $github_id)
+if [[ -z "$git_my_url" ]]; then
+    origin_url=git://github.com/boxen/our-boxen.git
+    my_url=git@github.com:$github_id/our-boxen.git
+    git remote set-url origin $origin_url
+    git remote add n0ts $my_url
+fi
+
+git remote get-url origin
+git remote get-url n0ts
