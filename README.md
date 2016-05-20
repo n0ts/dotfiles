@@ -12,6 +12,8 @@
   $ git clone https://github.com/n0ts/dotfiles $HOME/.env
   $ cd .env
   $ make
+  $ sudo chsh $USER
+  /bin/zsh
 ```
 
 ## zsh-completion
