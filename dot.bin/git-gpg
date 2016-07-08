@@ -18,5 +18,5 @@ if [ -z "$gpg_pub_key_id" ]; then
 fi
 
 git config --local gpg.program $gpg
-git config --local user.signingkey $ggp_pub_key_id
+git config --local user.signingkey $gpg_pub_key_id
 git config --local commit.gpgsign true
