@@ -56,6 +56,7 @@ fi
 # vagrant
 if [ -f $HOME/.vagrant.d/license-vagrant-vmware-fusion.lic ]; then
    export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
+   export FUSION_APP_PATH=/Applications/VMWare\ Fusion.app
 fi
 
 
