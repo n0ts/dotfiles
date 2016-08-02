@@ -88,9 +88,9 @@ export LESSCHARSET=UTF-8
 export LESS='-R'
 if [ -x "`which source-highlight 2> /dev/null`" ]; then
   if [ -x "`which nkf 2> /dev/null`" ]; then
-    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s | nkf'
+    export LESSOPEN='| src-hilite-lesspipe.sh %s | nkf'
   else
-    export LESSOPEN='| $HOME/.env/source-highlight/src-hilite-lesspipe.sh %s'
+    export LESSOPEN='| src-hilite-lesspipe.sh %s'
   fi
 fi
 export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?'
@@ -190,9 +190,9 @@ SPROMPT="%{[31m%}'%r' is correct? [n,y,a,e] %{${reset_color}%}"
 
 # aliases
 if gls --color > /dev/null 2>&1; then
-  alias ls='gls --color=auto -F'
+  alias ls='gls --color=always -F'
 elif ls --color > /dev/null 2>&1; then
-  alias ls='ls --color=auto -F'
+  alias ls='ls --color=always -F'
 elif ls -G > /dev/null 2>&1; then
   alias ls='ls -FG'
 else
@@ -203,6 +203,7 @@ alias ll='ls -Flh'
 alias l=ls
 alias sl=l
 
+alias ag='ag --color'
 alias be='bundle exec'
 alias bi='bundle install --path vendor/bundle'
 alias bo='bundle outdated'
@@ -220,8 +221,7 @@ if [ -x "`which hub 2> /dev/null`" ]; then
   alias git=hub
 fi
 alias g=git
-alias gosh='rlwrap gosh'
-alias grep='grep --color'
+alias grep='grep --color=always'
 alias h=history
 alias less='less --tabs=4'
 alias lv='lv -c'
