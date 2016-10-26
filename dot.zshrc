@@ -247,6 +247,7 @@ alias sudu=sudo
 alias t=tmux
 alias tl='tmux ls'
 alias tf='tail -f'
+alias mux=tmuxinator
 if [ -x "`which vagrant 2> /dev/null`" ]; then
   alias vu='vagrant up'
   alias vd='vagrant destroy'
