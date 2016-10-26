@@ -64,6 +64,7 @@ fi
 # Homebrew/cask
 #
 CASKROOM_PATH=`echo $HOMEBREW_CASK_OPTS | cut -d '=' -f 2`
+path=( $CASKROOM_PATH/../bin/ $path )
 
 # google-cloud-sdk
 GOOGLE_CLOUD_SDK=$CASKROOM_PATH/google-cloud-sdk/latest/google-cloud-sdk
