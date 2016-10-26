@@ -74,3 +74,9 @@ if [ -d $GOOGLE_CLOUD_SDK ]; then
   source $GOOGLE_CLOUD_SDK/path.zsh.inc
   source $GOOGLE_CLOUD_SDK/completion.zsh.inc
 fi
+
+
+#
+# iTerm2 Shell Integration
+#
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
