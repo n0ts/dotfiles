@@ -7,14 +7,16 @@
   templatedir = ~/.git.templates
 
 [pager]
+  grep = false
   log = diff-highlight | less -S -i -F -X
   show = diff-highlight | less -S -i -F -X
   diff = diff-highlight | less -S -i -F -X
 
-[secrets]
-  providers = git secrets --aws-provider
-  patterns = [A-Z0-9]{20}
-  patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
-  patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
-  allowed = AKIAIOSFODNN7EXAMPLE
-  allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+# https://github.com/awslabs/git-secrets/issues/32
+#[secrets]
+#  providers = git secrets --aws-provider
+#  patterns = [A-Z0-9]{20}
+#  patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
+#  patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
+#  allowed = AKIAIOSFODNN7EXAMPLE
+#  allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
