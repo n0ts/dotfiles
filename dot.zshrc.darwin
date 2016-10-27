@@ -79,4 +79,5 @@ fi
 #
 # iTerm2 Shell Integration
 #
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+[ -d "$HOME/.iterm2" ] && path=( $HOME/.iterm2 $path )
+test -e "$HOME/.iterm2/shell_integration.zsh" && source "$HOME/.iterm2/shell_integration.zsh"
