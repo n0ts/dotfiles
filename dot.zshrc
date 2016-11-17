@@ -84,6 +84,7 @@ esac
 
 # environment variable configuration
 export LANG=en_US.UTF-8
+export LC_ALL=$LANG
 export LESSCHARSET=UTF-8
 export LESS='-R'
 if [ -x "`which source-highlight 2> /dev/null`" ]; then
