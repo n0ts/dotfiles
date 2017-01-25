@@ -363,7 +363,7 @@ bindkey '^x^p' pbcopy-buffer
 [ -z "$PLENV_ROOT" ] && [ -x "`which plenv 2> /dev/null`" ] && eval "$(plenv init -)"
 
 # pyenv
-[ -z "$PYENV_ROOT" ] && [ -x "`which pyenv 2> /dev/null`" ] && eval "$(pyenv init - --no-rehash)"
+[ -z "$PYENV_ROOT" ] && [ -x "`which pyenv 2> /dev/null`" ] && eval "$(pyenv init - --no-rehash)" && eval "$(pyenv virtualenv-init -)"
 
 # source
 if [ -d $HOME/.zsh.sources ]; then
