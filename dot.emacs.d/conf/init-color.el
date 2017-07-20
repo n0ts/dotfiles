@@ -2,8 +2,8 @@
 
 (global-font-lock-mode t)
 
-(set-face-background 'modeline "gainsboro")
-(set-face-foreground 'modeline "black")
+(set-face-background 'mode-line "gainsboro")
+(set-face-foreground 'mode-line "black")
 (set-face-background 'highlight "gray10")
 (set-face-foreground 'highlight "tomato")
 (set-face-background 'scroll-bar "gray30")
