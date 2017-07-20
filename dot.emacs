@@ -25,13 +25,13 @@
 (load "init-moccur")
 (load "init-isearch")
 (load "init-emacsclient")
-(load "init-elscreen")
-(load "init-dsvn")
+;;(load "init-elscreen")
+;;(load "init-dsvn")
 (load "init-dmacro")
 (load "init-minibuf")
-(load "init-tramp")
-(load "init-uniquify")
-(load "init-ack")
+;;(load "init-tramp")
+;(load "init-uniquify")
+;(load "init-ack")
 ;;(load "init-gtags")
 (load "init-automode")
 
@@ -56,7 +56,6 @@
 
 (load "init-osx")
 
-(load "init-window")
 
 ;; load local configuration
 (load-file "~/.emacs.local")
