@@ -59,21 +59,6 @@ if [ -f $HOME/.vagrant.d/license-vagrant-vmware-fusion.lic ]; then
    export FUSION_APP_PATH=/Applications/VMWare\ Fusion.app
 fi
 
-
-#
-# Homebrew/cask
-#
-
-# google-cloud-sdk
-GOOGLE_CLOUD_SDK=$CASKROOM_PATH/google-cloud-sdk/latest/google-cloud-sdk
-if [ -d $GOOGLE_CLOUD_SDK ]; then
-  autoload -U compinit; compinit -u;
-
-  source $GOOGLE_CLOUD_SDK/path.zsh.inc
-  source $GOOGLE_CLOUD_SDK/completion.zsh.inc
-fi
-
-
 #
 # iTerm2 Shell Integration
 #
