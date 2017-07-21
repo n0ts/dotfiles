@@ -47,11 +47,11 @@
 (load "init-php")
 (load "init-puppet")
 (load "init-ruby")
-;;(load "init-rails")
+(load "init-rails")
 (load "init-sh")
 (load "init-shell")
 (load "init-sql")
-;;(load "init-migemo")
+;(load "init-migemo")
 (load "init-yaml")
 
 (load "init-osx")
