@@ -206,7 +206,8 @@ alias sl=l
 
 alias ag='ag --color'
 alias be='bundle exec'
-alias bi='bundle install --path vendor/bundle'
+alias bi='bundle install --path .bundle'
+alias bc='bundle clean'
 alias bo='bundle outdated'
 alias bs='bundle show'
 alias bu='bundle update'
@@ -356,17 +357,8 @@ bindkey '^x^p' pbcopy-buffer
 # direnv
 [ -x "`which direnv 2> /dev/null`" ] && eval "$(direnv hook zsh)"
 
-# rbenv
-[ -z "$RBENV_ROOT" ] && [ -x "`which rbenv 2> /dev/null`" ] && eval "$(rbenv init - --no-rehash)"
-
-# phpenv: after rbenv
-[ -z "$PHPENV_ROOT" ] && [ -x "`which phpenv 2> /dev/null`" ] && eval "$(phpenv init - --no-rehash)"
-
-# plenv
-[ -z "$PLENV_ROOT" ] && [ -x "`which plenv 2> /dev/null`" ] && eval "$(plenv init -)"
-
-# pyenv
-[ -z "$PYENV_ROOT" ] && [ -x "`which pyenv 2> /dev/null`" ] && eval "$(pyenv init - --no-rehash)" && eval "$(pyenv virtualenv-init -)"
+# anyenv
+[ -n "$ANYENV_ROOT" ] && eval "$(anyenv init -)"
 
 # source
 if [ -d $HOME/.zsh.sources ]; then
@@ -390,4 +382,3 @@ typeset -U path cdpath fpath manpath
 if exists zprof; then
   zprof | less
 fi
-
