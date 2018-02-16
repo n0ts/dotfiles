@@ -1,0 +1,16 @@
+#!/bin/bash
+
+upstream=$1
+
+my_url=$(git remote get-url n0ts)
+if [ -z "$my_url" ]; then
+  echo "Could not get n0ts remote"
+  exit 1
+fi
+
+git remote set-url origin $my_url
+git remote remove n0ts
+
+if [ -m "$upstream" ]; then
+  git remote add upstream $upstream
+fi

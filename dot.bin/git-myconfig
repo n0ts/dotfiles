@@ -1,0 +1,26 @@
+#!/bin/bash
+
+config=$1
+
+case "$config" in
+  gmail)
+    email=naoya.n@gmail.com
+    ;;
+
+  noreply)
+    email=n0ts@noreply.github.com
+    ;;
+
+  me)
+    email=me@n0ts.org
+    ;;
+
+  *)
+    echo "Unknown config - $config"
+    exit 1
+    ;;
+esac
+
+git config user.name n0ts
+git config user.email $email
+~/.bin/git-gpg $email
