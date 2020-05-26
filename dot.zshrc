@@ -208,7 +208,7 @@ alias sl=l
 
 alias ag='ag --color'
 alias be='bundle exec'
-alias bi='bundle install --path .bundle'
+alias bi="bundle config --local path '.bundle'; bundle install"
 alias bc='bundle clean'
 alias bo='bundle outdated'
 alias bs='bundle show'
