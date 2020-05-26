@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+
+set ENV_ENVCHAIN_NAME $env(_ENVCHAIN_NAME)
+set ENV_AWS_ACCESS_KEY_ID $env(_AWS_ACCESS_KEY_ID)
+set ENV_AWS_SECRET_ACCESS_KEY $env(_AWS_SECRET_ACCESS_KEY)
+set ENV_AWS_DEFAULT_REGION $env(_AWS_DEFAULT_REGION)
+
+spawn envchain --set $ENV_ENVCHAIN_NAME AWS_ACCESS_KEY_ID
+expect "*: " { send "$ENV_AWS_ACCESS_KEY_ID\n" }
+interact
+
+spawn envchain --set $ENV_ENVCHAIN_NAME AWS_SECRET_ACCESS_KEY
+expect "*: " { send "$ENV_AWS_SECRET_ACCESS_KEY\n" }
+interact
+
+spawn envchain --set $ENV_ENVCHAIN_NAME AWS_DEFAULT_REGION
+expect "*: " { send "$ENV_AWS_DEFAULT_REGION\n" }
+interact
