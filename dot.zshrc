@@ -110,6 +110,8 @@ fi
 
 # emacs keybind
 bindkey -e
+bindkey '^A'    beginning-of-line
+bindkey '^E'    end-of-line
 bindkey '^?'    backward-delete-char
 bindkey '^H'    backward-delete-char
 bindkey '^[[3~' delete-char
@@ -356,9 +358,6 @@ bindkey '^x^p' pbcopy-buffer
 
 # direnv
 [ -x "`which direnv 2> /dev/null`" ] && eval "$(direnv hook zsh)"
-
-# anyenv
-[ -n "$ANYENV_ROOT" ] && eval "$(anyenv init -)"
 
 # source
 if [ -d $HOME/.zsh.sources ]; then

@@ -25,29 +25,63 @@ fi
 #
 # Homebrew
 #
+export HOMEBREW_NO_AUTO_UPDATE="1"
 
-function brew_prefix { brew --prefix "$1" }
+if [ -d "/opt/boxen/homebrew" ]; then
+  BREW_ROOT=/opt/boxen/homebrew
+else
+  BREW_ROOT=/usr/local
+fi
+ANYENV_ROOT=$HOME/.anyenv
+
+if [ -d "$ANYENV_ROOT" ]; then
+  export PATH="$ANYENV_ROOT/bin:$PATH"
+  for D in `command ls $ANYENV_ROOT/envs`
+  do
+    export PATH="$ANYENV_ROOT/envs/$D/shims:$PATH"
+  done
+fi
+
+function anyenv_init() {
+  eval "$(anyenv init - --no-rehash)"
+}
+function anyenv_unset() {
+  unset -f nodenv
+  unset -f rbenv
+}
+function goenv() {
+  anyenv_unset
+  anyenv_init
+  goenv "$@"
+}
+function nodenv() {
+  anyenv_unset
+  anyenv_init
+  nodenv "$@"
+}
+function rbenv() {
+  anyenv_unset
+  anyenv_init
+  rbenv "$@"
+}
 
 # gnu coreutils
-COREUTILS=`brew_prefix coreutils`
-if [ -d "$COREUTILS/libexec/gnubin" ]; then
+if [ -d "$BREW_ROOT/opt/coreutils/libexec/gnubin" ]; then
   path=( $COREUTILS/libexec/gnubin $path )
 fi
 
 # Z
-Z=`brew_prefix z`
-if [ -f "$Z/etc/profile.d/z.sh" ]; then
+if [ -f "$BREW_ROOT/opt/z/etc/profile.d/z.sh" ]; then
   Z_CMD=j
-  source $Z/etc/profile.d/z.sh
+  source $BREW_ROOT/opt/z/etc/profile.d/z.sh
   precmd() {
     _z --add "$(pwd -P)"
   }
 fi
 
 # zsh-completions
-ZSH_COMPLETIONS=`brew_prefix zsh-completions`
-if [ -d "$ZSH_COMPLETIONS/share/zsh-completions" ]; then
-  fpath=( $ZSH_COMPLETIONS/share/zsh-completions $fpath )
+if [ -d "$BREROOT/opt/zsh-completions/share/zsh-completions" ]; then
+  fpath=( $BREROOT/opt/zsh-completions/share/zsh-completions $fpath )
 fi
 
 # java

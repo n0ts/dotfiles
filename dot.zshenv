@@ -1,4 +1,4 @@
 #!/bin/zsh
 
 # Profiling
-#zmodload zsh/zprof && zprof
+##zmodload zsh/zprof && zprof
