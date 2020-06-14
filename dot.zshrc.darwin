@@ -46,7 +46,10 @@ function anyenv_init() {
   eval "$(anyenv init - --no-rehash)"
 }
 function anyenv_unset() {
+  unset -f goenv
   unset -f nodenv
+  unset -f phpenv
+  unset -f pyenv
   unset -f rbenv
 }
 function goenv() {
@@ -59,11 +62,26 @@ function nodenv() {
   anyenv_init
   nodenv "$@"
 }
+function phpenv() {
+  anyenv_unset
+  anynev_init
+  phpenv "$@"
+}
+function pyenv() {
+  anyenv_unset
+  anyenv_init
+  pyenv "$@"
+}
 function rbenv() {
   anyenv_unset
   anyenv_init
   rbenv "$@"
 }
+
+# curl
+if [ -d "$BREW_ROOT/opt/curl/bin" ]; then
+  path=( $BREW_ROOT/opt/curl/bin $path )
+fi
 
 # gnu coreutils
 if [ -d "$BREW_ROOT/opt/coreutils/libexec/gnubin" ]; then
