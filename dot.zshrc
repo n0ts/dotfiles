@@ -208,7 +208,7 @@ alias sl=l
 
 alias ag='ag --color'
 alias be='bundle exec'
-alias bi="bundle config --local path '.bundle'; bundle install"
+alias bi="bundle install --path .bundle"
 alias bc='bundle clean'
 alias bo='bundle outdated'
 alias bs='bundle show'
@@ -221,7 +221,7 @@ alias du='du -h'
 alias e='emacs -nw'
 alias egrep='egrep --color'
 alias f=finger
-if [ -x "`which hub 2> /dev/null`" ]; then
+if [ -x "$BIN_PATH/hub" ]; then
   alias git=hub
 fi
 alias g=git
@@ -350,7 +350,7 @@ bindkey '^x^p' pbcopy-buffer
 [ -f ~/.dircolors-solarized/dircolors.256dark ] && eval `dircolors ~/.dircolors-solarized/dircolors.256dark 2&> /dev/null`
 
 # direnv
-[ -x "`which direnv 2> /dev/null`" ] && eval "$(direnv hook zsh)"
+[ -x "$BIN_PATH/direnv" ] && eval "$(direnv hook zsh)"
 
 # source
 if [ -d $HOME/.zsh.sources ]; then

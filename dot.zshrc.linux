@@ -3,3 +3,5 @@
 #
 
 alias cp='nocorrect cp -a'
+
+BIN_PATH=/usr/local/bin
