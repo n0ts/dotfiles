@@ -1,5 +1,5 @@
 #
-# .zshrc for OS X
+# .zshrc for macOS
 #
 path=( /usr/libexec $path )
 
@@ -29,10 +29,13 @@ export HOMEBREW_NO_AUTO_UPDATE="1"
 
 if [ -d "/opt/boxen/homebrew" ]; then
   BREW_ROOT=/opt/boxen/homebrew
+elif [ -d "/opt/homebrew" ]; then
+  BREW_ROOT=/opt/homebrew
 else
   BREW_ROOT=/usr/local
 fi
 ANYENV_ROOT=$HOME/.anyenv
+BIN_PATH=$BREW_ROOT/bin
 
 if [ -d "$ANYENV_ROOT" ]; then
   export PATH="$ANYENV_ROOT/bin:$PATH"
@@ -64,7 +67,7 @@ function nodenv() {
 }
 function phpenv() {
   anyenv_unset
-  anynev_init
+  anyenv_init
   phpenv "$@"
 }
 function pyenv() {
@@ -79,36 +82,20 @@ function rbenv() {
 }
 
 # curl
-if [ -d "$BREW_ROOT/opt/curl/bin" ]; then
-  path=( $BREW_ROOT/opt/curl/bin $path )
-fi
+[ -x "$BREW_ROOT/opt/curl/bin/curl" ] \
+  && path=( $BREW_ROOT/opt/curl/bin $path )
 
 # gnu coreutils
-if [ -d "$BREW_ROOT/opt/coreutils/libexec/gnubin" ]; then
-  path=( $COREUTILS/libexec/gnubin $path )
-fi
-
-# Z
-if [ -f "$BREW_ROOT/opt/z/etc/profile.d/z.sh" ]; then
-  Z_CMD=j
-  source $BREW_ROOT/opt/z/etc/profile.d/z.sh
-  precmd() {
-    _z --add "$(pwd -P)"
-  }
-fi
-
-# zsh-completions
-if [ -d "$BREROOT/opt/zsh-completions/share/zsh-completions" ]; then
-  fpath=( $BREROOT/opt/zsh-completions/share/zsh-completions $fpath )
-fi
+[ -d "$BREW_ROOT/opt/coreutils/libexec/gnubin" ] \
+  && path=( $BREW_ROOT/opt/coreutils/libexec/gnubin $path )
 
 # java
-[ -d /Library/Java/Home ] && export JAVA_HOME=/Library/Java/Home
+[ -d /Library/Java/Home ] \
+  && export JAVA_HOME=/Library/Java/Home
 
-# vagrant
-if [ -f $HOME/.vagrant.d/license-vagrant-vmware-fusion.lic ]; then
-   export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
-   export FUSION_APP_PATH=/Applications/VMWare\ Fusion.app
+# zsh-completions
+if [ -d "$BREW_ROOT/opt/zsh-completions/share/zsh-completions" ]; then
+  fpath=( $BREW_ROOT/opt/zsh-completions/share/zsh-completions $fpath )
 fi
 
 #

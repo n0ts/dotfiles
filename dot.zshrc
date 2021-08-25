@@ -87,8 +87,8 @@ export LANG=en_US.UTF-8
 export LC_ALL=$LANG
 export LESSCHARSET=UTF-8
 export LESS='-R'
-if [ -x "`which source-highlight 2> /dev/null`" ]; then
-  if [ -x "`which nkf 2> /dev/null`" ]; then
+if [ -x "$BIN_PATH/source-highlight" ]; then
+  if [ -x "$BIN_PATH/nkf" ]; then
     export LESSOPEN='| src-hilite-lesspipe.sh %s | nkf'
   else
     export LESSOPEN='| src-hilite-lesspipe.sh %s'
@@ -96,13 +96,13 @@ if [ -x "`which source-highlight 2> /dev/null`" ]; then
 fi
 export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?'
 export HOST=`hostname`
-if [ -x "`which lv 2> /dev/null`" ]; then
-export PAGER="lv -c"
+if [ -x "$BIN_PATH/lv" ]; then
+  export PAGER="lv -c"
 else
-export PAGER=less
+  export PAGER=less
 fi
 export LSCOLORS=dxfxcxdxbxegedabagacad
-if [ -x "`which emacsclient 2> /dev/null`" ]; then
+if [ -x "$BIN_PATH/emacsclient" ]; then
   export EDITOR=emacsclient
 else
   export EDITOR=vi
@@ -227,6 +227,7 @@ fi
 alias g=git
 alias grep='grep --color=always'
 alias h=history
+alias j=jobs
 alias less='less --tabs=4'
 alias lv='lv -c'
 alias m='mosh'
@@ -252,15 +253,7 @@ alias t=tmux
 alias tl='tmux ls'
 alias tf='tail -f'
 alias mux=tmuxinator
-if [ -x "`which vagrant 2> /dev/null`" ]; then
-  alias vu='vagrant up'
-  alias vd='vagrant destroy'
-  alias vdf='vagrant destroy -f'
-  alias vs='vagrant status'
-  alias vssh='vagrant ssh'
-  alias vsshc='vagrant ssh-config'
-fi
-if [ -x "`which vim 2> /dev/null`" ]; then
+if [ -x "$BIN_PATH/vim" ]; then
   alias v='vim'
 else
   alias v='vi'
@@ -300,7 +293,7 @@ zle -C dabbrev-complete menu-complete dabbrev-complete
 bindkey '^o' dabbrev-complete
 bindkey '^o^_' reverse-menu-complete
 
-# auto-fu.zsh
+# auto-fu.zsh - https://github.com/hchbaw/auto-fu.zsh
 if [ -f $HOME/.auto-fo.zsh/auto-fu.zsh ]; then
   # zsh version 4.3 or later
   if [[ $ZSH_VERSION == 4.<3->* || $ZSH_VERSION == <5->* ]]; then
@@ -381,3 +374,6 @@ typeset -U path cdpath fpath manpath
 if exists zprof; then
   zprof | less
 fi
+
+# iTerm2 shell integration - https://iterm2.com/documentation-shell-integration.html
+[ -e "$HOME/.iterm2_shell_integration.zsh" ] && source "$HOME/.iterm2_shell_integration.zsh"
