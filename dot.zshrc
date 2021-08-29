@@ -352,6 +352,9 @@ bindkey '^x^p' pbcopy-buffer
 # direnv
 [ -x "$BIN_PATH/direnv" ] && eval "$(direnv hook zsh)"
 
+# jump
+[ -x "$BIN_PATH/jump" ] && eval "$(jump shell zsh --bind=zz)"
+
 # source
 if [ -d $HOME/.zsh.sources ]; then
   for f (~/.zsh.sources/*) source "${f}"
