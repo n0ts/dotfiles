@@ -11,9 +11,7 @@ DOTS=\
 	.emacs.d \
 	.my.cnf \
 	.git.templates \
-	.gitattributes.local \
-	.gitconfig.local \
-	.gitignore.local \
+	.gitconfig \
 	.inputrc \
 	.percol.d \
 	.screenrc \
@@ -30,6 +28,9 @@ DOTS=\
 
 DOTS_LOCAL=\
 	dot.emacs.local \
+	dot.gitconfig.local \
+	dot.gitignore.local \
+	dot.gitattributes.local \
 	dot.zshrc.local
 
 

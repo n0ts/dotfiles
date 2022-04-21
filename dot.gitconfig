@@ -1,0 +1,46 @@
+[alias]
+  rc = rebase --continue
+  ft = fetch
+  ftp = fetch --tags --prune
+  pr = pull --rebase
+  co = checkout
+  wd = diff --word-diff
+  br = branch
+  so = remote show origin
+  kc = commit
+  st = status
+  graph = log --graph --pretty='format:%h %Cgreen%an%Creset | %s %Cred%d%Creset'
+  conf = config
+  sh = show
+  cm = checkout master
+  ci = commit -a
+  lg = log --graph --pretty=oneline --decorate --date=short --abbrev-commit --branches
+  ad = add
+  fo = fetch origin
+  ro = rebase origin
+  pl = pull
+  ps = "!git push \"$(git rev-parse --abbrev-ref HEAD)\""
+  psf = push --force $(git rev-parse --abbrev-ref HEAD)
+  su = !git branch -u origin $(git rev-parse --abbrev-ref HEAD)
+  pb = !git push origin $(git rev-parse --abbrev-ref HEAD)
+  pbf = !git push --force origin $(git rev-parse --abbrev-ref HEAD)
+  up = !git pull origin $(git rev-parse --abbrev-ref HEAD)
+  pbu = !git push n $(git rev-parse --abbrev-ref HEAD)
+  upu = !git pull n $(git rev-parse --abbrev-ref HEAD)
+  pbfu = !git push --force n $(git rev-parse --abbrev-ref HEAD)
+
+[core]
+  autoCRLF = false
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+
+[pull]
+  rebase = false
+
+[include]
+  path = ~/.gitconfig.local
+
