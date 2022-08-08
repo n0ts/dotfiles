@@ -107,6 +107,7 @@ if [ -x "$BIN_PATH/emacsclient" ]; then
 else
   export EDITOR=vi
 fi
+export AWS_PAGER=
 
 # emacs keybind
 bindkey -e
