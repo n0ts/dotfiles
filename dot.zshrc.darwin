@@ -3,16 +3,10 @@
 #
 path=( /usr/libexec $path )
 
-alias brew-cask-update='for c in `brew cask list`; do ! brew cask info $c | grep -qF "Not installed" || brew cask install $c; done'
-
-# boxen
+#
+# Boxen
+#
 [ -r "/opt/boxen/env.sh" ] && source /opt/boxen/env.sh
-
-# google-cloud-sdk
-if [ -d /opt/google-cloud-sdk ]; then
-  path=( /opt/google-cloud-sdk/bin $path )
-  source=/opt/google-cloud-sdk/completion.zsh.inc
-fi
 
 # mysql
 if [ -S "$BOXEN_HOME/data/mysql/socket" ]; then
@@ -25,7 +19,7 @@ fi
 #
 # Homebrew
 #
-export HOMEBREW_NO_AUTO_UPDATE="1"
+export HOMEBREW_NO_AUTO_UPDATE=1
 
 if [ -d "/opt/boxen/homebrew" ]; then
   BREW_ROOT=/opt/boxen/homebrew
@@ -89,6 +83,11 @@ function rbenv() {
 [ -d "$BREW_ROOT/opt/coreutils/libexec/gnubin" ] \
   && path=( $BREW_ROOT/opt/coreutils/libexec/gnubin $path )
 
+# google-cloud-sdk
+if [ -d "$BREW_ROOT/Caskroom/google-cloud-sdk" ]; then
+  source $BREW_ROOT/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+fi
+
 # java
 [ -d /Library/Java/Home ] \
   && export JAVA_HOME=/Library/Java/Home
@@ -98,8 +97,11 @@ if [ -d "$BREW_ROOT/opt/zsh-completions/share/zsh-completions" ]; then
   fpath=( $BREW_ROOT/opt/zsh-completions/share/zsh-completions $fpath )
 fi
 
+
+
 #
 # iTerm2 Shell Integration
 #
 [ -d "$HOME/.iterm2" ] && path=( $HOME/.iterm2 $path )
 test -e "$HOME/.iterm2/shell_integration.zsh" && source "$HOME/.iterm2/shell_integration.zsh"
+
