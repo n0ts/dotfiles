@@ -1,0 +1,30 @@
+#!/bin/sh
+set -e
+
+if [ $# -lt 4 ]; then
+    echo "Usage: $0 <bastion-tag-name> <local-port> <target-host> <target-port>"
+    exit 1
+fi
+
+BASTION_TAG_NAME="$1"
+LOCAL_PORT="$2"
+TARGET_HOST="$3"
+TARGET_PORT="$4"
+
+INSTANCE_ID=$(aws ec2 describe-instances \
+    --filter "Name=tag:Name,Values=${BASTION_TAG_NAME}" \
+    --query "Reservations[].Instances[?State.Name == 'running'].InstanceId[]" \
+    --output text)
+
+if [ -z "$INSTANCE_ID" ]; then
+    echo "Error: Could not find running EC2 instance with tag Name:${BASTION_TAG_NAME}"
+    exit 1
+fi
+
+echo "Found instance ID: ${INSTANCE_ID}"
+echo "Starting port forwarding session..."
+
+aws ssm start-session \
+    --target "$INSTANCE_ID" \
+    --document-name AWS-StartPortForwardingSessionToRemoteHost \
+    --parameters "{\"portNumber\":[\"${TARGET_PORT}\"],\"localPortNumber\":[\"${LOCAL_PORT}\"],\"host\":[\"${TARGET_HOST}\"]}"

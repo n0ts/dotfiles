@@ -1,0 +1,91 @@
+#!/bin/sh
+
+set -e
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <service-name> [cluster-name] [container-name] [command]"
+    exit 1
+fi
+
+SERVICE_NAME="$1"
+CLUSTER_NAME="${2:-}"
+CONTAINER_NAME="${3:-}"
+COMMAND="${4:-/bin/sh}"
+
+FOUND_CLUSTER=""
+FOUND_SERVICE=""
+
+if [ -n "$CLUSTER_NAME" ]; then
+    SERVICES=$(aws ecs list-services --cluster "$CLUSTER_NAME" --query 'serviceArns[*]' --output text 2>/dev/null || true)
+    
+    for SERVICE_ARN in $SERVICES; do
+        SERVICE_BASE_NAME=$(basename "$SERVICE_ARN")
+        if [[ "$SERVICE_BASE_NAME" == *"$SERVICE_NAME"* ]]; then
+            FOUND_CLUSTER="$CLUSTER_NAME"
+            FOUND_SERVICE="$SERVICE_ARN"
+            break
+        fi
+    done
+else
+    CLUSTERS=$(aws ecs list-clusters --query 'clusterArns[*]' --output text)
+    
+    if [ -z "$CLUSTERS" ]; then
+        echo "No clusters found"
+        exit 1
+    fi
+
+    for CLUSTER_ARN in $CLUSTERS; do
+        CLUSTER_NAME_AUTO=$(basename "$CLUSTER_ARN")
+        
+        SERVICES=$(aws ecs list-services --cluster "$CLUSTER_NAME_AUTO" --query 'serviceArns[*]' --output text 2>/dev/null || true)
+        
+        for SERVICE_ARN in $SERVICES; do
+            SERVICE_BASE_NAME=$(basename "$SERVICE_ARN")
+            if [[ "$SERVICE_BASE_NAME" == *"$SERVICE_NAME"* ]]; then
+                FOUND_CLUSTER="$CLUSTER_NAME_AUTO"
+                FOUND_SERVICE="$SERVICE_ARN"
+                break 2
+            fi
+        done
+    done
+fi
+
+if [ -z "$FOUND_CLUSTER" ] || [ -z "$FOUND_SERVICE" ]; then
+    echo "Service '$SERVICE_NAME' not found"
+    exit 1
+fi
+
+TASK_ARNS=$(aws ecs list-tasks \
+    --cluster "$FOUND_CLUSTER" \
+    --service-name "$FOUND_SERVICE" \
+    --desired-status RUNNING \
+    --query 'taskArns[*]' \
+    --output text)
+
+if [ -z "$TASK_ARNS" ]; then
+    echo "No running tasks found"
+    exit 1
+fi
+
+TASK_ARN=$(echo "$TASK_ARNS" | awk '{print $1}')
+TASK_ID=$(basename "$TASK_ARN")
+
+if [ -z "$CONTAINER_NAME" ]; then
+    TASK_DEF_ARN=$(aws ecs describe-tasks \
+        --cluster "$FOUND_CLUSTER" \
+        --tasks "$TASK_ARN" \
+        --query 'tasks[0].taskDefinitionArn' \
+        --output text)
+    
+    CONTAINERS=$(aws ecs describe-task-definition \
+        --task-definition "$TASK_DEF_ARN" \
+        --query 'taskDefinition.containerDefinitions[*].name' \
+        --output text)
+    
+    CONTAINER_NAME=$(echo "$CONTAINERS" | awk '{print $1}')
+fi
+aws ecs execute-command \
+    --cluster "$FOUND_CLUSTER" \
+    --task "$TASK_ARN" \
+    --container "$CONTAINER_NAME" \
+    --interactive \
+    --command "$COMMAND"
